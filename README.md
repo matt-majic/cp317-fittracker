@@ -1,6 +1,9 @@
 # FitTracker
 
-## Start Instructions
+## Resources
+- [Git Basics](https://youtu.be/USjZcfj8yxE)
+
+## Start Here
 1. Install GitHub and NodeJs.
 2. Clone the repo to your computer.
 
