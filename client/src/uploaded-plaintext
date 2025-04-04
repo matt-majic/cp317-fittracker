@@ -3,6 +3,8 @@
 Note: Don't merge this with Main. 
 Also Note: This should not be made into a .md file, or the formatting will get messed up. 
 
+# LAUNCH
+
 # 1 - A - Launch
 
 # InputDesign.jsx
@@ -59,4 +61,388 @@ export default InputDesign;
   }
 }
 
+
+# ON BOARDING 
+
+# 2 - A - On Boarding 
+
+# WelcomeScreen.jsx
+
+"use client";
+import * as React from "react";
+import styles from "./WelcomeScreen.module.css";
+
+function WelcomeScreen() {
+  return (
+    <section className={styles.welcomeContainer}>
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/88a7ecf723a8c9bca8d66788f6e45269fbf03d4b"
+        alt="Fitness background"
+        className={styles.backgroundImage}
+      />
+      <div className={styles.overlay} aria-hidden="true">
+        <svg
+          width="386"
+          height="852"
+          viewBox="0 0 386 852"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 0H393V852H0V0Z" fill="black" fillOpacity="0.5"></path>
+        </svg>
+      </div>
+      <header className={styles.contentWrapper}>
+        <h1 className={styles.welcomeText}>Welcome to</h1>
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e8d20912f4e1f3b5c8855fb0b71c77626ae65c9" alt="FITTracker" className={styles.logoImage} />
+      </header>
+    </section>
+  );
+}
+
+export default WelcomeScreen;
+
+# WelcomeScreen.module.css
+
+.welcomeContainer {
+  background-color: #232323;
+  border-radius: 20px;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.overlay svg {
+  width: 100%;
+  height: 100%;
+}
+
+.contentWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcomeText {
+  color: #e2f163;
+  font-family:
+    League Spartan,
+    sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 28px;
+  margin-bottom: 10px;
+}
+
+.logoImage {
+  object-fit: contain;
+  width: 277px;
+  height: 60px;
+}
+
+@media (width<=991px) {
+  .welcomeText {
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  .logoImage {
+    width: 240px;
+    height: 52px;
+  }
+}
+
+@media (width<=640px) {
+  .welcomeText {
+    font-size: 20px;
+    line-height: 22px;
+  }
+
+  .logoImage {
+    width: 200px;
+    height: 44px;
+  }
+}
+
+# 2 - B - On Boarding 
+
+# InputDesign.jsx
+
+"use client";
+import React from "react";
+import styles from "./InputDesign.module.css";
+
+// Arrow Icon Component
+const ArrowIcon = () => (
+  <svg
+    width="6"
+    height="11"
+    viewBox="0 0 6 11"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "6px", height: "11px" }}
+  >
+    <path
+      d="M0.585633 11C0.71215 11.0006 0.835198 10.9464 0.935146 10.8461L5.7695 6.10215C5.84117 6.03148 5.89925 5.94036 5.93923 5.83592C5.97921 5.73148 6 5.61651 6 5.49997C6 5.38343 5.97921 5.26847 5.93923 5.16402C5.89925 5.05958 5.84117 4.96852 5.7695 4.89786L0.935148 0.153873C0.8352 0.0535701 0.712152 -0.000576291 0.585635 4.7304e-06C0.508817 -0.000316744 0.432708 0.0189912 0.361666 0.056781C0.290624 0.0945707 0.22605 0.150067 0.171643 0.220192C0.117237 0.290316 0.0740773 0.373687 0.044623 0.465427C0.0151687 0.557167 -5.16879e-07 0.655524 -1.31975e-07 0.754855L-1.79131e-06 10.2451C-2.21095e-06 10.3445 0.015167 10.4428 0.0446213 10.5346C0.0740755 10.6263 0.117235 10.7096 0.171641 10.7797C0.226048 10.8499 0.290622 10.9054 0.361664 10.9432C0.432706 10.981 0.508815 11.0003 0.585633 11Z"
+      fill="#E2F163"
+    />
+  </svg>
+);
+
+// Workout Icon Component
+const WorkoutIcon = () => (
+  <svg
+    width="39"
+    height="44"
+    viewBox="0 0 39 44"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "38px", height: "43px", margin: "0 auto", display: "block" }}
+  >
+    <g clipPath="url(#clip0_3184_6198)">
+      <path
+        d="M38.3537 23.9366C38.3537 24.7526 38.0295 25.5352 37.4526 26.1122C36.8756 26.6892 36.093 27.0133 35.2771 27.0133C35.1146 27.0093 34.9528 26.9939 34.7926 26.9672H34.6386C32.0863 26.5238 29.7139 25.3602 27.8007 23.6135L30.6851 17.5524C31.2433 18.4417 31.985 19.2017 32.8604 19.7814C33.7359 20.361 34.7251 20.747 35.7617 20.9137C36.4872 21.029 37.1474 21.4001 37.6231 21.9599C38.0918 22.5122 38.3505 23.2122 38.3537 23.9366Z"
+        fill="#E2F163"
+      />
+      <path
+        d="M16.5017 31.5745C15.6884 32.2078 14.8027 32.7422 13.8634 33.1666C11.859 34.0449 9.69061 34.4855 7.50249 34.4589C5.68001 34.4641 3.86641 34.205 2.11829 33.6897C1.34916 33.4376 0.710355 32.8925 0.340337 32.1726C-0.0296809 31.4527 -0.101155 30.616 0.141472 29.8439C0.305175 29.3428 0.594853 28.8922 0.982752 28.5353C1.37065 28.1783 1.84367 27.9271 2.35659 27.8055C3.67957 27.4902 4.95643 28.1671 6.24864 28.3132C7.6322 28.4668 9.03263 28.3359 10.3638 27.9286C11.1996 27.6837 11.9822 27.2845 12.6713 26.7518C12.8587 27.3618 13.1169 27.9478 13.4405 28.4978C14.2018 29.7521 15.2513 30.8068 16.5017 31.5745Z"
+        fill="#E2F163"
+      />
+      <path
+        d="M37.2461 42.1659C37.2461 42.4719 37.1245 42.7654 36.9081 42.9817C36.6917 43.1981 36.3983 43.3197 36.0923 43.3197H11.4789C11.1729 43.3197 10.8793 43.1981 10.663 42.9817C10.4466 42.7654 10.3251 42.4719 10.3251 42.1659C10.3251 41.8599 10.4466 41.5665 10.663 41.3502C10.8793 41.1338 11.1729 41.0122 11.4789 41.0122H26.8623C27.0392 41.0122 27.1008 40.966 27.0854 40.7661C27.0313 39.6136 26.908 38.4655 26.7162 37.3279C26.462 35.9884 25.9723 34.7045 25.2701 33.5358C24.8812 32.9048 24.4104 32.3281 23.8701 31.8206C23.6932 31.6591 23.5009 31.4976 23.3009 31.336C22.5623 30.7585 21.7261 30.3183 20.8319 30.0362C18.9167 29.3901 17.1938 28.7747 16.1016 26.9595C15.7003 26.2868 15.4443 25.5374 15.3503 24.7598C15.2562 23.9821 15.3261 23.1934 15.5555 22.4445C15.817 21.7676 16.2093 21.106 16.5247 20.4522L19.1013 15.0065C19.1705 14.8604 19.5782 13.6759 19.7475 13.6374C19.1175 13.7589 18.4978 13.9286 17.8938 14.1451C15.7772 14.941 13.8377 16.1459 12.1865 17.6909C11.8865 17.9617 11.5361 18.1707 11.1553 18.306C10.7746 18.4414 10.371 18.5003 9.9674 18.4796C9.56384 18.4588 9.16822 18.3589 8.80331 18.1853C8.43841 18.0117 8.1114 17.7679 7.84072 17.4679C7.56998 17.1679 7.36086 16.8176 7.22554 16.4368C7.09022 16.0561 7.03131 15.6524 7.05202 15.2488C7.07274 14.8452 7.17269 14.4497 7.34628 14.0848C7.51987 13.7199 7.76378 13.3928 8.06381 13.1221C10.3092 11.0416 12.9405 9.42139 15.8092 8.35321C17.8457 7.61171 19.9953 7.22917 22.1626 7.22255C23.2497 7.22057 24.3344 7.32623 25.4008 7.53794C25.6851 7.55883 25.965 7.62101 26.2315 7.72253C26.5936 7.77576 26.9476 7.87395 27.2854 8.01482C28.4144 8.48713 29.3096 9.38859 29.7741 10.5209C30.2386 11.6532 30.2343 12.9237 29.7621 14.0528L29.5313 14.6066L24.5856 24.9981C24.8779 25.1365 25.1778 25.2826 25.4624 25.4365C25.7469 25.5903 26.2315 25.9057 26.5853 26.1595C27.7034 26.9525 28.7032 27.9004 29.5544 28.9747C31.2753 31.2426 32.4089 33.9007 32.8542 36.7125C33.1585 38.1404 33.2261 39.6086 33.0542 41.0583C34.0618 41.0583 35.0693 41.0583 36.0769 41.0583C36.3778 41.0541 36.6683 41.1675 36.8867 41.3744C37.1051 41.5813 37.2341 41.8653 37.2461 42.1659Z"
+        fill="#E2F163"
+      />
+      <path
+        d="M5.87938 41.0121H3.1026C2.7966 41.0121 2.50323 41.1338 2.28685 41.3501C2.07048 41.5665 1.94884 41.8599 1.94884 42.1659C1.94884 42.4719 2.07048 42.7653 2.28685 42.9817C2.50323 43.1981 2.7966 43.3196 3.1026 43.3196H5.87938C6.18538 43.3196 6.47875 43.1981 6.69513 42.9817C6.9115 42.7653 7.03314 42.4719 7.03314 42.1659C7.03314 41.8599 6.9115 41.5665 6.69513 41.3501C6.47875 41.1338 6.18538 41.0121 5.87938 41.0121Z"
+        fill="#E2F163"
+      />
+      <path
+        d="M30.0852 7.33789C32.1115 7.33789 33.7541 5.69524 33.7541 3.66894C33.7541 1.64264 32.1115 0 30.0852 0C28.0589 0 26.4162 1.64264 26.4162 3.66894C26.4162 5.69524 28.0589 7.33789 30.0852 7.33789Z"
+        fill="#E2F163"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_3184_6198">
+        <rect width="38.3537" height="43.3197" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+// Skip Button Component
+const SkipButton = () => {
+  return (
+    <div className={styles.skipContainer}>
+      <div className={styles.skipWrapper}>
+        <span className={styles.skipText}>Skip</span>
+        <div>
+          <ArrowIcon />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Progress Indicators Component
+const ProgressIndicators = () => {
+  return (
+    <div className={styles.progressIndicators}>
+      <div className={styles.indicatorInactive} />
+      <div className={styles.indicatorActive} />
+      <div className={styles.indicatorActive} />
+    </div>
+  );
+};
+
+// Content Section Component
+const ContentSection = () => {
+  return (
+    <section className={styles.contentSection}>
+      <div className={styles.contentWrapper}>
+        <div>
+          <WorkoutIcon />
+        </div>
+        <h2 className={styles.heading}>
+          Start your journey towards a more active lifestyle
+        </h2>
+        <ProgressIndicators />
+        <div className={styles.buttonContainer}>
+          <button className={styles.nextButton}>Next</button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Background Section Component
+const BackgroundSection = () => {
+  return (
+    <>
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/dbeba30d33c2e761df69d8371b9cb64c4ac3362e"
+        alt="Background"
+        className={styles.backgroundImage}
+      />
+      <div className={styles.overlay} />
+    </>
+  );
+};
+
+// Main Component
+function InputDesign() {
+  return (
+    <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=League+Spartan:wght@400;500&display=swap"
+        rel="stylesheet"
+      />
+      <div className={styles.container}>
+        <BackgroundSection />
+        <SkipButton />
+        <ContentSection />
+      </div>
+    </>
+  );
+}
+
+export default InputDesign;
+
+# InputDesign.module.css 
+
+.container {
+  background-color: #232323;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 393px;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+@media (width<=991px) {
+  .container {
+    max-width: 100%;
+  }
+}
+.backgroundImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.overlay {
+  background-color: #0003;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.skipContainer {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 65px;
+  right: 35px;
+}
+.skipWrapper {
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+.skipText {
+  color: #e2f163;
+  font-family:
+    League Spartan,
+    sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+.contentSection {
+  width: 100%;
+  position: absolute;
+  top: 337px;
+  left: 0;
+}
+.contentWrapper {
+  text-align: center;
+  filter: drop-shadow(0 4px 4px #00000040);
+  background-color: #ec6f17;
+  padding: 16px;
+}
+.heading {
+  color: #fff;
+  text-transform: capitalize;
+  max-width: 309px;
+  margin: 15px auto;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+@media (width<=640px) {
+  .heading {
+    font-size: 18px;
+  }
+}
+.progressIndicators {
+  justify-content: center;
+  gap: 4px;
+  margin: 20px 0;
+  display: flex;
+}
+.indicatorInactive {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 20px;
+  height: 4px;
+}
+.indicatorActive {
+  background-color: #896cfe;
+  border-radius: 12px;
+  width: 20px;
+  height: 4px;
+}
+.buttonContainer {
+  justify-content: center;
+  margin-top: 20px;
+  display: flex;
+}
+.nextButton {
+  color: #fff;
+  text-transform: capitalize;
+  backdrop-filter: blur(7px);
+  background-color: #ffffff17;
+  border: 0.5px solid #fff;
+  border-radius: 100px;
+  width: 211px;
+  height: 44px;
+  font-family: Poppins, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+@media (width<=640px) {
+  .nextButton {
+    width: 180px;
+  }
+}
 
