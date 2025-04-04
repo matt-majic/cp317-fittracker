@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Starter kit for creating React and Express apps",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "client-install": "cd client && npm install",
     "start": "node server.js",
@@ -18,6 +19,7 @@
   "dependencies": {
     "concurrently": "^3.5.1",
     "cors": "^2.8.5",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mysql2": "^3.14.0"
   }
 }
