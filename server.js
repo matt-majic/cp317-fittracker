@@ -16,3 +16,4 @@ app.get('/api/customers', cors(), (req, res) => {
 const port = 5000;
 
 app.listen(port, () => `Server running on port ${port}`);
+//Test
