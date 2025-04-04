@@ -5,57 +5,58 @@ Also Note: This should not be made into a .md file, or the formatting will get m
 
 # 1 - A - Launch
 
-
-# FitTrackerLogo.tsx
-
-"use client";
-
-import React from "react";
-
-interface FitTrackerLogoProps {
-  className?: string;
-}
-
-const FitTrackerLogo: React.FC<FitTrackerLogoProps> = ({ className = "" }) => {
-  return (
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e8d20912f4e1f3b5c8855fb0b71c77626ae65c9"
-      alt="FITTracker"
-      className={`text-4xl italic text-center text-lime-300 capitalize h-[60px] w-[277px] max-md:w-60 max-md:text-4xl max-md:h-[52px] max-sm:text-3xl max-sm:h-[43px] max-sm:w-[200px] ${className}`}
-    />
-  );
-};
-
-export default FitTrackerLogo;
-
-# LogoScreen.tsx 
+# InputDesign.jsx
 
 "use client";
-
-import React from "react";
-import FitTrackerLogo from "./FitTrackerLogo";
-
-const LogoScreen: React.FC = () => {
-  return (
-    <section className="flex justify-center items-center w-full min-h-screen rounded-3xl border border-white border-solid bg-neutral-800">
-      <FitTrackerLogo />
-    </section>
-  );
-};
-
-export default LogoScreen;
-
-# InputDesign.tsx
-
-"use client";
-
-import React from "react";
-import LogoScreen from "./LogoScreen";
+import * as React from "react";
+import styles from "./InputDesign.module.css";
 
 function InputDesign() {
-  return <LogoScreen />;
+  return (
+    <main className={styles.div}>
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e8d20912f4e1f3b5c8855fb0b71c77626ae65c9" alt="FITTracker" className={styles.logo} />
+    </main>
+  );
 }
 
 export default InputDesign;
+
+# InputDesign.module.css
+
+.div {
+  background-color: #232323;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+}
+.logo {
+  color: #e2f163;
+  text-align: center;
+  text-transform: capitalize;
+  width: 277px;
+  height: 60px;
+  font-family: Poppins, sans-serif;
+  font-size: 40px;
+  font-style: italic;
+  font-weight: 400;
+}
+@media (width<=991px) {
+  .logo {
+    width: 240px;
+    height: 52px;
+    font-size: 35px;
+  }
+}
+@media (width<=640px) {
+  .logo {
+    width: 200px;
+    height: 43px;
+    font-size: 29px;
+  }
+}
 
 
