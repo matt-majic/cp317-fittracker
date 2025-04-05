@@ -234,6 +234,84 @@ app.post('/api/WorkoutPlan', cors(), async (req, res) => {
 });
 //regionend
 
+// #region Nutrition Tracker
+
+app.get('/api/Nutrition/:userId', cors(), async (req, res) => {
+  // Retrieves the nutrition tracker for a specific user
+  const userId = req.params.userId;
+  const result = await database.getNutritionTracker(userId);
+  res.json(result);
+});
+
+app.post('/api/Nutrition/AddFood', cors(), async (req, res)=> {
+  // Adds a food item to the user's nutrition tracker
+  const { userId, food, quantity } = req.body;
+  const result = await database.addFood(userId, food, quantity);
+  res.sendStatus(result);
+});
+
+app.post('/api/Nutrition/RemoveFood', cors(), async (req, res)=> {
+  // Removes a food item from the user's nutrition tracker
+  const { userId, food } = req.body;
+  const result = await database.removeFood(userId, food);
+  res.sendStatus(result);
+});
+
+app.get('/api/Nutrition/TotalCalories/:userId', cors(), async (req, res)=> {
+  // Gets the total calories for the user's current nutrition log
+  const userId = req.params.userId;
+  const result = await database.getTotalCalories(userId);
+  res.json(result);
+});
+
+app.get('/api/Nutrition/FoodLog/:userId', cors(), async (req, res)=> {
+  // Gets the list of food items the user has logged
+  const userId = req.params.userId;
+  const result = await database.getFoodLog(userId);
+  res.json(result);
+});
+
+// #endregion
+
+
+// #region Application
+
+app.get('/api/Application/WorkoutPlans/:id', cors(), async (req, res) => {
+  // Retrieve a specific workout plan by ID
+  const id = req.params.id;
+  const result = await database.getWorkoutPlan(id);
+  res.json(result);
+});
+
+app.post('/api/Application/WorkoutPlans', cors(), async (req, res) => {
+  // Add a new workout plan to the application
+  const plan = req.body;
+  const result = await database.addWorkoutPlan(plan);
+  res.sendStatus(result);
+});
+
+app.get('/api/Application/Sessions/:id', cors(), async (req, res) => {
+  // Get a specific session by ID
+  const id = req.params.id;
+  const result = await database.getSession(id);
+  res.json(result);
+});
+
+app.post('/api/Application/Sessions', cors(), async (req, res) => {
+  // Add a new session to the application
+  const session = req.body;
+  const result = await database.addSession(session);
+  res.sendStatus(result);
+});
+
+app.get('/api/Application/MetList/:name', cors(), async (req, res) => {
+  // Retrieve MET information for an activity by name
+  const name = req.params.name;
+  const result = await database.getMetList(name);
+  res.json(result);
+});
+
+// #endregion
 
 
 // ExpressJS code

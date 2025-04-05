@@ -68,34 +68,27 @@ export async function getTrainerBankingInfo(id) {
 export async function createPayment(payment) {
     return 200
 }
-
 export async function getPayment(id) {
     return { id: id }
 }
-
 export async function getPaymentsByTrainerId(id) {
     return { id: id }
 }
-
 export async function updatePaymentStatus(id, newStatus) {
     return 200
 }
-
 export async function getPaymentsByTraineeId(id) {
     return { id: id }
 }
-
 // #endregion
 
 // #region Collect
 export async function processWithdrawal(trainerId, amount) {
     return true
 }
-
 export async function getTransactionHistory(trainerId) {
     return { trainerId: trainerId }
 }
-
 // #endregion
 
 
@@ -139,3 +132,38 @@ export async function createworkoutplan(id) {
 }
 // #endregion
 
+// #region Nutrition Tracker
+export async function getNutritionTracker(userId) {
+    return { userId: userId }
+}
+export async function addFood(userId, food, quantity) {
+    return 200
+}
+export async function removeFood(userId, food) {
+    return 200
+}
+export async function getTotalCalories(userId) {
+    return { userId: userId, totalCalories: 1234 }
+}
+export async function getFoodLog(userId) {
+    return { userId: userId, foodItems: [] }
+}
+// #endregion
+
+// #region Application
+export async function getWorkoutPlan(id) {
+    return { id: id }
+}
+export async function addWorkoutPlan(plan) {
+    return 200
+}
+export async function getSession(id) {
+    return { id: id }
+}
+export async function addSession(session) {
+    return 200
+}
+export async function getMetList(name) {
+    return { name: name, met: 7.5 }
+}
+// #endregion
