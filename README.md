@@ -2,6 +2,8 @@
 
 ## Resources
 - [Git Basics](https://youtu.be/USjZcfj8yxE)
+- [Node Basics](https://youtu.be/ENrzD9HAZK4)
+- [React Basics](https://www.youtube.com/watch?v=s2skans2dP4)
 
 ## Start Here
 1. Install GitHub and NodeJs.
