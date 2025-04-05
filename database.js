@@ -35,6 +35,10 @@ export async function getTraineeWorkoutPlans(id) {
 export async function getFoodPresets(id) {
     return { id: id }
 }
+
+export async function getPaymentMethod(id) {
+    return { id: id }
+}
 // #endregion
 
 // #region Trainer
@@ -55,5 +59,17 @@ export async function getTrainerWorkoutPlans(id) {
 }
 export async function getTrainerBankingInfo(id) {
     return { id: id }
+}
+// #endregion
+
+// #region Session
+export async function getSession(id) {
+    return { id: id }
+}
+export async function createSession(trainee) {
+    return 200
+}
+export async function updateSession(id, session) {
+    return 200
 }
 // #endregion
