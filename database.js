@@ -1,11 +1,13 @@
 import mysql from 'mysql2'
-// Really bad practice, demonstrational purposes only
+import dotenv from 'dotenv'
+// To access the SQL server, you must get the .env file from Discord
 // const pool = mysql.createPool({
-//     host: '',
-//     user: '',
-//     password: '',
-//     database: ''
+//     host: process.env.SQL_HOST,
+//     user: process.env.SQL_USER,
+//     password: process.env.SQL_PASSWORD,
+//     database: process.env.SQL_DATABASE
 // }).promise()
+// dotenv.config()
 
 // #region Trainee
 export async function getTrainee(id) {
