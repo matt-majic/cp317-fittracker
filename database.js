@@ -66,19 +66,23 @@ export async function getTrainerBankingInfo(id) {
 
 // #region Payment
 export async function createPayment(payment) {
-    return 201
+    return 200
 }
 
 export async function getPayment(id) {
     return { id: id }
 }
 
-export async function getPaymentsByUserId(userId) {
-    return { userId: userId }
+export async function getPaymentsByTrainerId(id) {
+    return { id: id }
 }
 
 export async function updatePaymentStatus(id, newStatus) {
     return 200
+}
+
+export async function getPaymentsByTraineeId(id) {
+    return { id: id }
 }
 
 // #endregion

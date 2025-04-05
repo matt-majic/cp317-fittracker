@@ -119,17 +119,24 @@ app.post('/api/Payment', cors(), async (req, res) => {
   res.sendStatus(status);
 });
 
-app.get('/api/Payment/:id', cors(), async (req, res)=> {
+app.get('/api/Payment/:id', cors(), async (req, res) => {
   // Retrieves a single payment by its ID
   const id = req.params.id;
-  const payment= await database.getPayment(id);
+  const payment = await database.getPayment(id);
   res.json(payment);
 });
 
-app.get('/api/Payment/User/:userId', cors(), async (req, res)=> {
-  //Gets all payments made by or received by a user
-  const userId = req.params.userId;
-  const payments = await database.getPaymentsByUserId(userId);
+app.get('/api/Payment/Trainer/:id', cors(), async (req, res) => {
+  //Gets all payments made by or received by a trainer
+  const id = req.params.id;
+  const payments = await database.getPaymentsByTrainerId(id);
+  res.json(payments);
+});
+
+app.get('/api/Payment/Trainee/:id', cors(), async (req, res) => {
+  //Gets all payments made by or received by a trainee
+  const id = req.params.id;
+  const payments = await database.getPaymentsByTraineeId(id);
   res.json(payments);
 });
 
