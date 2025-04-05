@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Customers from './components/customers';
-import startPage from './startPage';
+import startPage from './startPage.js';
 
 class App extends Component {
   render() {
