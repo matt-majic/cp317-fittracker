@@ -7,8 +7,9 @@ import mysql from 'mysql2'
 //     database: ''
 // }).promise()
 
+// #region Trainee
 export async function getTrainee(id) {
-    return { id: 0 }
+    return { id: id }
 }
 
 export async function createTrainee(trainee) {
@@ -19,18 +20,40 @@ export async function updateTrainee(id, trainee) {
     return 200
 }
 
-export async function getSessions(id) {
-    return { id: 0 }
+export async function getTraineeSessions(id) {
+    return { id: id }
 }
 
 export async function getNutritionTracker(id) {
-    return { id: 0 }
+    return { id: id }
 }
 
-export async function getWorkoutPlan(id) {
-    return { id: 0 }
+export async function getTraineeWorkoutPlans(id) {
+    return { id: id }
 }
 
 export async function getFoodPresets(id) {
-    return { id: 0 }
+    return { id: id }
 }
+// #endregion
+
+// #region Trainer
+export async function getTrainer(id) {
+    return { id: id }
+}
+export async function createTrainer(trainer) {
+    return 200
+}
+export async function updateTrainer(id, trainer) {
+    return 200
+}
+export async function getTrainerSessions(id) {
+    return { id: id }
+}
+export async function getTrainerWorkoutPlans(id) {
+    return { id: id }
+}
+export async function getTrainerBankingInfo(id) {
+    return { id: id }
+}
+// #endregion
