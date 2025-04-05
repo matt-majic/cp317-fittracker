@@ -177,6 +177,49 @@ app.put('/api/Session/:id', cors(), async (req, res) => {
 });
 // #endregion
 
+//#region CalorieTracker
+app.get('/api/CalorieTracker/:id', cors(), async (req, res) => {
+  // Get a list of all calorie trackers (history)
+  const id = req.params.id
+  const calorieTracker = await database.getCalorieTrackers(id)
+  res.json(calorieTracker);
+});
+
+app.post('/api/CalorieTracker', cors(), async (req, res) => {
+  // Creates a CalorieTracker
+  const calorieTracker = req.body
+  const status = await database.createCalorieTracker(calorieTracker)
+  res.sendStatus(status);
+});
+
+//Calorie Tracker
+app.get('/api/CalorieTracker/:id/:date', cors(), async (req, res) => {
+  // Get a specific calorieTracker
+  const id = req.params.id
+  const date = req.params.date
+  const calorieTracker = await database.getCalorieTracker(id, date)
+  res.json(calorieTracker);
+});
+//regionend
+
+//#region Workoutplan
+app.get('/api/Workoutplan/:id', cors(), async (req, res) => {
+  // Get a specific workoutPlan
+  const id = req.params.id
+  const workoutplan = await database.getWorkoutPlan(id)
+  res.json(workoutplan);
+});
+
+app.post('/api/WorkoutPlan', cors(), async (req, res) => {
+  // Creates a Workoutplan
+  const workoutplan = req.body
+  const status = await database.createworkoutplan(workoutplan)
+  res.sendStatus(status);
+});
+//regionend
+
+
+
 // ExpressJS code
 app.use((err, req, res, next) => {
   console.error(err.stack)

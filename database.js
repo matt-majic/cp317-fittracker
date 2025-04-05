@@ -106,3 +106,29 @@ export async function updateSession(id, session) {
     return 200
 }
 // #endregion
+
+
+// #region CalorieTracker
+export async function getCalorieTrackers(id) {
+    return { id: id }
+}
+export async function createCalorieTracker(id) {
+    return 200
+}
+export async function getCalorieTracker(id, date) {
+    return { id: id }
+}
+export async function calorieTrackerController(id, date) {
+    return true
+}
+// #endregion
+
+// #region workoutplan
+export async function getWorkoutPlan(id) {
+    return { id: id }
+}
+export async function createworkoutplan(id) {
+    return 200
+}
+// #endregion
+
