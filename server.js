@@ -186,10 +186,10 @@ app.put('/api/Session/:id', cors(), async (req, res) => {
 
 //#region CalorieTracker
 app.get('/api/CalorieTracker/:id', cors(), async (req, res) => {
-  // Get a list of all calorie trackers (history)
+  // Get a list of all calorie trackers (history) by trainee id
   const id = req.params.id
-  const calorieTracker = await database.getCalorieTrackers(id)
-  res.json(calorieTracker);
+  const calorieTrackers = await database.getCalorieTrackers(id)
+  res.json(calorieTrackers);
 });
 
 app.post('/api/CalorieTracker', cors(), async (req, res) => {
@@ -199,9 +199,8 @@ app.post('/api/CalorieTracker', cors(), async (req, res) => {
   res.sendStatus(status);
 });
 
-//Calorie Tracker
 app.get('/api/CalorieTracker/:id/:date', cors(), async (req, res) => {
-  // Get a specific calorieTracker
+  // Get a specific calorieTracker for trainee id and date
   const id = req.params.id
   const date = req.params.date
   const calorieTracker = await database.getCalorieTracker(id, date)
@@ -218,22 +217,21 @@ app.put('/api/CalorieTracker/:id/:date', cors(), async (req, res) => {
 });
 //regionend
 
-//#region Workoutplan
-app.get('/api/Workoutplan/:id', cors(), async (req, res) => {
+//#region Workout Plan
+app.get('/api/WorkoutPlan/:id', cors(), async (req, res) => {
   // Get a specific workoutPlan
   const id = req.params.id
-  const workoutplan = await database.getWorkoutPlan(id)
-  res.json(workoutplan);
+  const workoutPlan = await database.getWorkoutPlan(id)
+  res.json(workoutPlan);
 });
 
 app.post('/api/WorkoutPlan', cors(), async (req, res) => {
   // Creates a Workoutplan
-  const workoutplan = req.body
-  const status = await database.createworkoutplan(workoutplan)
+  const workoutPlan = req.body
+  const status = await database.createworkoutplan(workoutPlan)
   res.sendStatus(status);
 });
 //regionend
-
 
 
 // ExpressJS code
