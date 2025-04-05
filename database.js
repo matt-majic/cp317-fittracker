@@ -121,6 +121,9 @@ export async function getCalorieTracker(id, date) {
 export async function calorieTrackerController(id, date) {
     return true
 }
+export async function updateCalorieTracker(id, date) {
+    return 200
+}
 // #endregion
 
 // #region workoutplan

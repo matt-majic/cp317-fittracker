@@ -200,6 +200,15 @@ app.get('/api/CalorieTracker/:id/:date', cors(), async (req, res) => {
   const calorieTracker = await database.getCalorieTracker(id, date)
   res.json(calorieTracker);
 });
+
+app.put('/api/CalorieTracker/:id/:date', cors(), async (req, res) => {
+  // Updates a calorietracker
+  const id = req.params.id
+  const date = req.params.date
+  const calorieTracker = req.body
+  const status = await database.updateCalorieTracker(id, date, calorieTracker)
+  res.sendStatus(status);
+});
 //regionend
 
 //#region Workoutplan
