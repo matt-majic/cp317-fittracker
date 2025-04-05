@@ -6,7 +6,7 @@
 - [React Basics](https://www.youtube.com/watch?v=s2skans2dP4)
 
 ## Start Here
-1. Install GitHub and NodeJs.
+1. Install Git and NodeJs.
 2. Clone the repo to your computer.
 
 ## Installation Instructions

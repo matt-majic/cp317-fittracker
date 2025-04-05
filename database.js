@@ -113,7 +113,7 @@ export async function createCalorieTracker(id) {
     return 200
 }
 export async function getCalorieTracker(id, date) {
-    return { id: id }
+    return { id: id, date: date }
 }
 export async function calorieTrackerController(id, date) {
     return true
