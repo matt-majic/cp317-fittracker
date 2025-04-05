@@ -16,7 +16,7 @@ app.get('/api/Trainee/:id', cors(), async (req, res) => {
 app.post('/api/Trainee', cors(), async (req, res) => {
   // Creates a trainee
   const trainee = req.body
-  const status = await database.createTrainee(trainee) // 201 if created, 400 if bad
+  const status = await database.createTrainee(trainee) // 200 if created, 400 if bad
   res.sendStatus(status);
 });
 
@@ -75,7 +75,7 @@ app.get('/api/Trainer/:id', cors(), async (req, res) => {
 app.post('/api/Trainer', cors(), async (req, res) => {
   // Creates a trainer
   const trainer = req.body
-  const status = await database.createTrainer(trainer) // 201 if created, 400 if bad
+  const status = await database.createTrainer(trainer) // 200 if created, 400 if bad
   res.sendStatus(status);
 });
 
@@ -151,6 +151,30 @@ app.get('/api/Collect/History/:trainerId', cors(), async (req, res) => {
   res.json(transactions);
 });
 
+// #endregion
+
+// #region Session
+app.get('/api/Session/:id', cors(), async (req, res) => {
+  // Get a session by id
+  const id = req.params.id
+  const session = await database.getSession(id)
+  res.json(session);
+});
+
+app.post('/api/Session', cors(), async (req, res) => {
+  // Creates a session
+  const session = req.body
+  const status = await database.createSession(session) // 200 if created, 400 if bad
+  res.sendStatus(status);
+});
+
+app.put('/api/Session/:id', cors(), async (req, res) => {
+  // Updates a session
+  const session = req.body
+  const id = req.params.id
+  const status = await database.updateSession(id, session) // 200 if created, 400 if bad
+  res.sendStatus(status);
+});
 // #endregion
 
 // ExpressJS code

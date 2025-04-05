@@ -1,11 +1,13 @@
 import mysql from 'mysql2'
-// Really bad practice, demonstrational purposes only
+import dotenv from 'dotenv'
+// To access the SQL server, you must get the .env file from Discord
 // const pool = mysql.createPool({
-//     host: '',
-//     user: '',
-//     password: '',
-//     database: ''
+//     host: process.env.SQL_HOST,
+//     user: process.env.SQL_USER,
+//     password: process.env.SQL_PASSWORD,
+//     database: process.env.SQL_DATABASE
 // }).promise()
+// dotenv.config()
 
 // #region Trainee
 export async function getTrainee(id) {
@@ -33,6 +35,10 @@ export async function getTraineeWorkoutPlans(id) {
 }
 
 export async function getFoodPresets(id) {
+    return { id: id }
+}
+
+export async function getPaymentMethod(id) {
     return { id: id }
 }
 // #endregion
@@ -74,6 +80,7 @@ export async function getPaymentsByUserId(userId) {
 export async function updatePaymentStatus(id, newStatus) {
     return 200
 }
+
 // #endregion
 
 // #region Collect
@@ -83,5 +90,19 @@ export async function processWithdrawal(trainerId, amount) {
 
 export async function getTransactionHistory(trainerId) {
     return { trainerId: trainerId }
+}
+
+// #endregion
+
+
+// #region Session
+export async function getSession(id) {
+    return { id: id }
+}
+export async function createSession(trainee) {
+    return 200
+}
+export async function updateSession(id, session) {
+    return 200
 }
 // #endregion

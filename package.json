@@ -19,6 +19,7 @@
   "dependencies": {
     "concurrently": "^3.5.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.16.2",
     "mysql2": "^3.14.0"
   }
