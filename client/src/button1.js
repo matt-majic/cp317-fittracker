@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import styles from "./InputDesign.module.css";
+import styles from "./button1.module.css";
 
 function InputDesign() {
   return (
