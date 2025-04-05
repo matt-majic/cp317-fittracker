@@ -110,6 +110,49 @@ app.get('/api/Trainer/:id/BankingInfo', cors(), async (req, res) => {
 
 // #endregion
 
+// #region Payment
+
+app.post('/api/Payment', cors(), async (req, res) => {
+  // Creates a new payment
+  const payment = req.body;
+  const status = await database.createPayment(payment);
+  res.sendStatus(status);
+});
+
+app.get('/api/Payment/:id', cors(), async (req, res)=> {
+  // Retrieves a single payment by its ID
+  const id = req.params.id;
+  const payment= await database.getPayment(id);
+  res.json(payment);
+});
+
+app.get('/api/Payment/User/:userId', cors(), async (req, res)=> {
+  //Gets all payments made by or received by a user
+  const userId = req.params.userId;
+  const payments = await database.getPaymentsByUserId(userId);
+  res.json(payments);
+});
+
+// #endregion
+
+// #region Collect
+
+app.post('/api/Collect/Withdraw', cors(), async (req, res) => {
+  // Allows a trainer to request a withdrawal from their account
+  const { trainerId, amount } = req.body;
+  const success = await database.processWithdrawal(trainerId, amount);
+  res.sendStatus(success ? 200 : 400);
+});
+
+app.get('/api/Collect/History/:trainerId', cors(), async (req, res) => {
+  // Retrieves a trainer's full payment transaction history
+  const trainerId = req.params.trainerId;
+  const transactions = await database.getTransactionHistory(trainerId);
+  res.json(transactions);
+});
+
+// #endregion
+
 // ExpressJS code
 app.use((err, req, res, next) => {
   console.error(err.stack)
@@ -118,4 +161,4 @@ app.use((err, req, res, next) => {
 
 const port = 5000;
 
-app.listen(port, () => `Server running on port ${port}`);
+app.listen(port, () => console.log(`Server running on port ${port}`));
