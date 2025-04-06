@@ -312,6 +312,32 @@ app.get('/api/Application/MetList/:name', cors(), async (req, res) => {
 
 // #endregion
 
+
+// #region Food 
+
+app.get('/api/FoodPresets/:traineeId', cors(), async (req, res) => {
+  // Get all saved food presets for a specific trainee
+  const traineeId = req.params.traineeId;
+  const result = await database.getFoodPresets(traineeId);
+  res.json(result);
+});
+
+app.post('/api/FoodPresets', cors(), async (req, res) => {
+  // Add a new food preset for a trainee
+  const { traineeId, food } = req.body;
+  const result = await database.addFoodPreset(traineeId, food);
+  res.sendStatus(result);
+});
+
+app.delete('/api/FoodPresets', cors(), async (req, res) => {
+  // Remove a food preset from the trainee's list
+  const { traineeId, foodName } = req.body;
+  const result = await database.removeFoodPreset(traineeId, foodName);
+  res.sendStatus(result);
+});
+
+// #endregion
+
 // ExpressJS code
 app.use((err, req, res, next) => {
   console.error(err.stack)

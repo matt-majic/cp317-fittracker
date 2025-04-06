@@ -167,3 +167,15 @@ export async function getMetList(name) {
     return { name: name, met: 7.5 }
 }
 // #endregion
+
+// #region Food
+export async function getFoodPresets(traineeId) {
+    return { traineeId: traineeId }
+}
+export async function addFoodPreset(traineeId, food) {
+    return 200
+}
+export async function removeFoodPreset(traineeId, foodName) {
+    return 200
+}
+// #endregion
