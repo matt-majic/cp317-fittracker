@@ -27,7 +27,7 @@ export async function getTrainee(id) {
         return trainee[0]
     } catch (error) {
         console.error('Error: Get Trainee', error.message)
-        return 400
+        return {}
     }
 }
 
@@ -42,7 +42,7 @@ export async function createTrainee(trainee) {
         await query(
             `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee[" interests"]]
+            [userId, trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee["interests"]]
         )
 
         return 200
@@ -81,7 +81,7 @@ export async function getTraineeSessions(id) {
         return sessions
     } catch (error) {
         console.error('Error: Get Trainee Sessions', error.message)
-        return 500
+        return []
     }
 }
 
@@ -104,22 +104,95 @@ export async function getPaymentMethod(id) {
 
 // #region Trainer
 export async function getTrainer(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT * FROM trainers WHERE user_id = ?`,
+            [id]
+        )
+        return result[0]
+    } catch (error) {
+        console.error('Error: Get Trainer', error.message)
+        return []
+    }
 }
 export async function createTrainer(trainer) {
-    return 200
+    try {
+        const userResult = await query(
+            'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
+            [trainer["email"], trainer["password"], trainer["firstName"], trainer["lastName"]]
+        )
+        const userId = userResult.insertId
+
+        await query(
+            `INSERT INTO trainers (user_id, qualifications, experience, bankingInfo, balance)
+             VALUES (?, ?, ?, ?, ?)`,
+            [userId, trainer["qualifications"], trainer["experience"], trainer["bankingInfo"], trainer["balance"]]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Trainer', error.message)
+        return 400
+    }
 }
 export async function updateTrainer(id, trainer) {
+    try {
+        await query(
+            `UPDATE trainers
+            SET qualifications = ?, experience = ?, bankingInfo = ?, balance = ?
+            WHERE user_id = ?`,
+            [trainer["qualifications"], trainer["experience"], trainer["bankingInfo"], trainer["balance"], id]
+        )
+    } catch (error) {
+        console.error('Error: Update Trainer', error.message)
+        return 400
+    }
     return 200
 }
 export async function getTrainerSessions(id) {
-    return { id: id }
+    try {
+        const sessions = await query(
+            `SELECT s.*, sess.link
+             FROM services s
+             JOIN sessions sess ON s.id = sess.service_id
+             WHERE s.trainer_id = ?`,
+            [id]
+        )
+        return sessions
+    } catch (error) {
+        console.error('Error: Get Trainer Sessions', error.message)
+        return []
+    }
 }
 export async function getTrainerWorkoutPlans(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT *
+            FROM workout_plans wp JOIN services s ON wp.service_id = s.id
+            JOIN trainers tr ON s.trainer_id = tr.user_id
+            WHERE 
+            tr.user_id = ?`,
+            [id]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Trainer Workout Plans', error.message)
+        return []
+    }
 }
 export async function getTrainerBankingInfo(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT t.user_id, t.bankingInfo
+            FROM trainers t
+            WHERE t.user_id = ?`,
+            [id]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Trainer BankingInfo', error.message)
+        return []
+    }
 }
 // #endregion
 
