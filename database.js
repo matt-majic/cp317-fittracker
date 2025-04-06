@@ -177,19 +177,57 @@ export async function updateSession(id, session) {
 
 // #region CalorieTracker
 export async function getCalorieTrackers(id) {
-    return { id: id }
+    try {
+        const calorieTracker = await query('SELECT * FROM calorie_trackers WHERE user_id = ?', [id])
+        return calorieTracker
+    } catch (error) {
+        console.error('Error: Get Calorie Trackers', error.message)
+        return 500
+    }
 }
-export async function createCalorieTracker(id) {
-    return 200
+
+export async function createCalorieTracker(calorieTracker) {
+    try {
+        const { user_id, date, calorieIn, calorieOut, calorieGoal } = calorieTracker
+
+        await query(
+            'INSERT INTO calorie_trackers (user_id, date, calorieIn, calorieOut, calorieGoal) VALUES (?, ?, ?, ?, ?)',
+            [user_id, date, calorieIn, calorieOut, calorieGoal]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Calorie Tracker', error.message)
+        return 500
+    }
 }
+
+
 export async function getCalorieTracker(id, date) {
-    return { id: id, date: date }
+    try {
+        const calorieTracker = await query('SELECT * FROM calorie_trackers WHERE user_id = ? AND date = ?', [id, date])
+        return calorieTracker[0]
+    } catch (error) {
+        console.error('Error: Get Calorie Tracker', error.message)
+        return 500
+    }
 }
-export async function calorieTrackerController(id, date) {
-    return true
-}
-export async function updateCalorieTracker(id, date) {
-    return 200
+
+export async function updateCalorieTracker(id, date, calorieTracker) {
+    try {
+        const { calorieIn, calorieOut, calorieGoal } = calorieTracker
+
+        await query(
+            `UPDATE calorie_trackers
+            SET calorieIn = ?, calorieOut = ?, calorieGoal = ?
+            WHERE user_id = ? AND date = ?`,
+            [calorieIn, calorieOut, calorieGoal, id, date]
+        )
+        return 200
+    } catch (error){
+        console.error('Error: Update Calorie Tracker', error.message)
+        return 500
+    }
 }
 // #endregion
 
