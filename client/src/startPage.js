@@ -2,7 +2,7 @@
 import * as React from "react";
 import styles from "./startPage.module.css";
 
-console.log("Styles object in startPage.js", styles);
+console.log(styles);
 
 function StartPage() {
   return (

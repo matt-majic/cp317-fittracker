@@ -1,35 +1,35 @@
 .div {
-  background-color: #232323;
-  border: 1px solid #fff;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-}
-.logo {
-  color: #e2f163;
-  text-align: center;
-  text-transform: capitalize;
-  width: 277px;
-  height: 60px;
-  font-family: Poppins, sans-serif;
-  font-size: 40px;
-  font-style: italic;
-  font-weight: 400;
-}
-@media (width<=991px) {
-  .logo {
-    width: 240px;
-    height: 52px;
-    font-size: 35px;
+    background-color: #232323;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
   }
-}
-@media (width<=640px) {
   .logo {
-    width: 200px;
-    height: 43px;
-    font-size: 29px;
+    color: #e2f163;
+    text-align: center;
+    text-transform: capitalize;
+    width: 277px;
+    height: 60px;
+    font-family: Poppins, sans-serif;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 400;
   }
-}
+  @media (max-width: 991px) {
+    .logo {
+      width: 240px;
+      height: 52px;
+      font-size: 35px;
+    }
+  }
+  @media (max-width: 640px) {
+    .logo {
+      width: 200px;
+      height: 43px;
+      font-size: 29px;
+    }
+  }
