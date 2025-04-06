@@ -225,15 +225,70 @@ export async function getTransactionHistory(trainerId) {
 
 
 // #region Session
-export async function getSession(id) {
-    return { id: id }
+export async function getSession(serviceId) {
+    try {
+        const session = await query(
+            `SELECT sess.*, s.*
+             FROM sessions sess
+             JOIN services s ON sess.service_id = s.id
+             WHERE sess.service_id = ?`,
+            [serviceId]
+        )
+        return session[0] // Return single session object
+    } catch (error) {
+        console.error('Error: Get Session', error.message)
+        return 400
+    }
 }
-export async function createSession(trainee) {
-    return 200
+
+export async function createSession(session) {
+    try {
+        const { trainee_id, trainer_id, name, description, totalCalories, date, link } = session
+
+        const serviceResult = await query(
+            `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [trainee_id, trainer_id, name, description, totalCalories, date]
+        )
+        const serviceId = serviceResult.insertId
+
+        await query(
+            `INSERT INTO sessions (service_id, link)
+             VALUES (?, ?)`,
+            [serviceId, link]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Session', error.message)
+        return 400
+    }
 }
-export async function updateSession(id, session) {
-    return 200
+export async function updateSession(serviceId, session) {
+    try {
+        const { name, description, totalCalories, date, link } = session
+
+        await query(
+            `UPDATE services
+             SET name = ?, description = ?, totalCalories = ?, date = ?
+             WHERE id = ?`,
+            [name, description, totalCalories, date, serviceId]
+        )
+
+        await query(
+            `UPDATE sessions
+             SET link = ?
+             WHERE service_id = ?`,
+            [link, serviceId]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Update Session', error.message)
+        return 400
+    }
 }
+
 // #endregion
 
 
