@@ -36,14 +36,12 @@ export async function createTrainee(trainee) {
     try {
         const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
 
-        // Step 1: Insert into users
         const userResult = await query(
             'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
             [email, password, firstName, lastName]
         )
         const userId = userResult.insertId
     
-        // Step 2: Insert into trainees
         await query(
             `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
