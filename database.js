@@ -222,12 +222,48 @@ export async function updateCalorieTracker(id, date, calorieTracker) {
 
 // #region WorkoutPlan
 export async function getWorkoutPlan(id) {
-    return { id: id }
+    try {
+        const workout_plan = await query(
+            `SELECT wp.*, s.*
+             FROM workout_plans wp
+             JOIN services s ON wp.service_id = s.id
+             WHERE s.trainee_id = ?`,
+            [id]
+        )
+        return workout_plan
+    } catch (error) {
+        console.error('Error: Get Workout Plan', error.message)
+        return 400
+    }
 }
-export async function createWorkoutPlan(id) {
-    return 200
+
+export async function createWorkoutPlan(workoutPlan) {
+    try {
+        const { trainee_id, trainer_id, name, description, totalCalories, date, file } = workoutPlan
+
+        const serviceResult = await query(
+            `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [trainee_id, trainer_id, name, description, totalCalories, date]
+        )
+        const serviceId = serviceResult.insertId
+
+        await query(
+            `INSERT INTO workout_plans (service_id, file)
+             VALUES (?, ?)`,
+            [serviceId, file]
+        )
+
+        return { status: 200, serviceId }
+    } catch (error) {
+        console.error('Error: Create Workout Plan', error.message)
+        return { status: 400 }
+    }
 }
+
+
 // #endregion
+
 
 // #region Nutrition Tracker
 export async function addFood(userId, food, quantity) {
