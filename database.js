@@ -25,55 +25,46 @@ export async function getTrainee(id) {
     try {
         const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
         return trainee[0]
-    } catch (error){
+    } catch (error) {
         console.error('Error: Get Trainee', error.message)
-        return 500
+        return 400
     }
-    
 }
 
 export async function createTrainee(trainee) {
     try {
-        const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
-
         const userResult = await query(
             'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
-            [email, password, firstName, lastName]
+            [trainee["email"], trainee["password"], trainee["firstName"], trainee["lastName"]]
         )
         const userId = userResult.insertId
-    
+
         await query(
             `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, height, weight, gender, age, weightGoal, weightGoalDuration, interests]
+            [userId, trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee[" interests"]]
         )
-    
+
         return 200
-    } catch (error){
+    } catch (error) {
         console.error('Error: Create Trainee', error.message)
-        return 500
+        return 400
     }
-    
-    
 }
 
 
 export async function updateTrainee(id, trainee) {
     try {
-        const { height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
-
         await query(
             `UPDATE trainees
             SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
             WHERE user_id = ?`,
-            [height, weight, gender, age, weightGoal, weightGoalDuration, interests, id]
+            [trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee["interests"], id]
         )
-    } catch (error){
+    } catch (error) {
         console.error('Error: Update Trainee', error.message)
-        return 500
+        return 400
     }
-    
-
     return 200
 }
 
@@ -88,12 +79,10 @@ export async function getTraineeSessions(id) {
             [id]
         )
         return sessions
-    } catch (error){
-        console.error('Error: Get TRainee Sessions', error.message)
+    } catch (error) {
+        console.error('Error: Get Trainee Sessions', error.message)
         return 500
     }
-
-    
 }
 
 export async function getNutritionTracker(id) {
