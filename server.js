@@ -297,6 +297,28 @@ app.delete('/api/FoodPresets', cors(), async (req, res) => {
 
 // #endregion
 
+// #region Services Controller
+app.post('/api/ServicesController/ActiveSessions', cors(), async (req, res) => {
+  // Adds an active session
+  const { sessionId } = req.body
+  const status = await database.addActiveSession(sessionId)
+  res.sendStatus(status);
+});
+
+app.delete('/api/ServicesController/ActiveSessions', cors(), async (req, res) => {
+  // Remove an active session
+  const { sessionId } = req.body
+  const status = await database.removeActiveSession(sessionId)
+  res.sendStatus(status);
+});
+
+app.get('/api/ServicesController/ActiveSessions/:traineeId', cors(), async (req, res) => {
+  // Retrieve active sessions for trainee id
+  const id = req.params.traineeId;
+  const result = await database.fetchActiveSessions(id);
+  res.json(result);
+});
+
 // ExpressJS code
 app.use((err, req, res, next) => {
   console.error(err.stack)

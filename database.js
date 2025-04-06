@@ -123,7 +123,7 @@ export async function updateCalorieTracker(id, date) {
 }
 // #endregion
 
-// #region workoutplan
+// #region WorkoutPlan
 export async function getWorkoutPlan(id) {
     return { id: id }
 }
@@ -162,5 +162,17 @@ export async function addFoodPreset(traineeId, food) {
 }
 export async function removeFoodPreset(traineeId, foodId) {
     return 200
+}
+// #endregion
+
+// #region Services Controller
+export async function addActiveSession(sessionId) {
+    return 200
+}
+export async function removeActiveSession(sessionId) {
+    return 200
+}
+export async function fetchActiveSessions(traineeId) {
+    return { id: traineeId }
 }
 // #endregion
