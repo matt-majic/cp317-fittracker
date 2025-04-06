@@ -7,8 +7,9 @@
     width: 100%;
     min-height: 100vh;
     display: flex;
-  }
-  .logo {
+}
+
+.logo {
     color: #e2f163;
     text-align: center;
     text-transform: capitalize;
@@ -18,18 +19,18 @@
     font-size: 40px;
     font-style: italic;
     font-weight: 400;
-  }
-  @media (max-width: 991px) {
+}
+@media (max-width: 991px) {
     .logo {
-      width: 240px;
-      height: 52px;
-      font-size: 35px;
+    width: 240px;
+    height: 52px;
+    font-size: 35px;
     }
-  }
-  @media (max-width: 640px) {
+}
+@media (max-width: 640px) {
     .logo {
-      width: 200px;
-      height: 43px;
-      font-size: 29px;
+    width: 200px;
+    height: 43px;
+    font-size: 29px;
     }
-  }
+}
