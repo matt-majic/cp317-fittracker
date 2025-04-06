@@ -1,29 +1,75 @@
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
-// To access the SQL server, you must get the .env file from Discord
-// const pool = mysql.createPool({
-//     host: process.env.SQL_HOST,
-//     user: process.env.SQL_USER,
-//     password: process.env.SQL_PASSWORD,
-//     database: process.env.SQL_DATABASE
-// }).promise()
-// dotenv.config()
+
+dotenv.config()
+
+const pool = mysql.createPool({
+    host: process.env.SQL_HOST,
+    user: process.env.SQL_USER,
+    password: process.env.SQL_PASSWORD,
+    database: process.env.SQL_DATABASE,
+    port: process.env.SQL_PORT
+}).promise()
+
+export default pool
+
+//Helper
+async function query(sql, params) {
+    const [rows] = await pool.query(sql, params)
+    return rows
+}
+
 
 // #region Trainee
 export async function getTrainee(id) {
-    return { id: id }
+    const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
+    return trainee[0]
 }
 
 export async function createTrainee(trainee) {
+    const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
+
+    // Step 1: Insert into users
+    const userResult = await query(
+        'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
+        [email, password, firstName, lastName]
+    )
+    const userId = userResult.insertId
+
+    // Step 2: Insert into trainees
+    await query(
+        `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userId, height, weight, gender, age, weightGoal, weightGoalDuration, interests]
+    )
+
     return 200
 }
+
 
 export async function updateTrainee(id, trainee) {
+    const { height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
+
+    await query(
+        `UPDATE trainees
+         SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
+         WHERE user_id = ?`,
+        [height, weight, gender, age, weightGoal, weightGoalDuration, interests, id]
+    )
+
     return 200
 }
 
+
 export async function getTraineeSessions(id) {
-    return { id: id }
+    const sessions = await query(
+        `SELECT s.*, sess.link
+         FROM services s
+         JOIN sessions sess ON s.id = sess.service_id
+         WHERE s.trainee_id = ?`,
+        [id]
+    )
+    return sessions
 }
 
 export async function getNutritionTracker(id) {
