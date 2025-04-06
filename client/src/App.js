@@ -6,6 +6,7 @@ import StartPage from "./startPage.js";
 
 class App extends Component {
   render() {
+    console.log("Rendering App component");
     return (
       <div className="App">
         <header className="App-header">
