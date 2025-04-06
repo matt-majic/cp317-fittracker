@@ -228,42 +228,34 @@ app.get('/api/WorkoutPlan/:id', cors(), async (req, res) => {
 app.post('/api/WorkoutPlan', cors(), async (req, res) => {
   // Creates a Workoutplan
   const workoutPlan = req.body
-  const status = await database.createworkoutplan(workoutPlan)
+  const status = await database.createWorkoutPlan(workoutPlan)
   res.sendStatus(status);
 });
 //regionend
 
 // #region Nutrition Tracker
-
-app.get('/api/Nutrition/:userId', cors(), async (req, res) => {
-  // Retrieves the nutrition tracker for a specific user
-  const userId = req.params.userId;
-  const result = await database.getNutritionTracker(userId);
-  res.json(result);
-});
-
-app.post('/api/Nutrition/AddFood', cors(), async (req, res)=> {
+app.post('/api/Nutrition/AddFood', cors(), async (req, res) => {
   // Adds a food item to the user's nutrition tracker
   const { userId, food, quantity } = req.body;
   const result = await database.addFood(userId, food, quantity);
   res.sendStatus(result);
 });
 
-app.post('/api/Nutrition/RemoveFood', cors(), async (req, res)=> {
+app.post('/api/Nutrition/RemoveFood', cors(), async (req, res) => {
   // Removes a food item from the user's nutrition tracker
   const { userId, food } = req.body;
   const result = await database.removeFood(userId, food);
   res.sendStatus(result);
 });
 
-app.get('/api/Nutrition/TotalCalories/:userId', cors(), async (req, res)=> {
-  // Gets the total calories for the user's current nutrition log
-  const userId = req.params.userId;
-  const result = await database.getTotalCalories(userId);
+app.get('/api/Nutrition/TotalCalories/:id', cors(), async (req, res) => {
+  // Gets the day's total calories for the user's current nutrition log
+  const id = req.params.id;
+  const result = await database.getTotalCalories(id);
   res.json(result);
 });
 
-app.get('/api/Nutrition/FoodLog/:userId', cors(), async (req, res)=> {
+app.get('/api/Nutrition/FoodLog/:userId', cors(), async (req, res) => {
   // Gets the list of food items the user has logged
   const userId = req.params.userId;
   const result = await database.getFoodLog(userId);
@@ -272,56 +264,23 @@ app.get('/api/Nutrition/FoodLog/:userId', cors(), async (req, res)=> {
 
 // #endregion
 
-
 // #region Application
 
-app.get('/api/Application/WorkoutPlans/:id', cors(), async (req, res) => {
-  // Retrieve a specific workout plan by ID
-  const id = req.params.id;
-  const result = await database.getWorkoutPlan(id);
+app.get('/api/Application/WorkoutPlans', cors(), async (req, res) => {
+  // Get all workout plans
+  const result = await database.getAllWorkoutPlans();
   res.json(result);
 });
 
-app.post('/api/Application/WorkoutPlans', cors(), async (req, res) => {
-  // Add a new workout plan to the application
-  const plan = req.body;
-  const result = await database.addWorkoutPlan(plan);
-  res.sendStatus(result);
-});
-
-app.get('/api/Application/Sessions/:id', cors(), async (req, res) => {
-  // Get a specific session by ID
-  const id = req.params.id;
-  const result = await database.getSession(id);
-  res.json(result);
-});
-
-app.post('/api/Application/Sessions', cors(), async (req, res) => {
-  // Add a new session to the application
-  const session = req.body;
-  const result = await database.addSession(session);
-  res.sendStatus(result);
-});
-
-app.get('/api/Application/MetList/:name', cors(), async (req, res) => {
-  // Retrieve MET information for an activity by name
-  const name = req.params.name;
-  const result = await database.getMetList(name);
+app.get('/api/Application/MetList/', cors(), async (req, res) => {
+  // Retrieve MET information for activities
+  const result = await database.getMetList();
   res.json(result);
 });
 
 // #endregion
 
-
 // #region Food 
-
-app.get('/api/FoodPresets/:traineeId', cors(), async (req, res) => {
-  // Get all saved food presets for a specific trainee
-  const traineeId = req.params.traineeId;
-  const result = await database.getFoodPresets(traineeId);
-  res.json(result);
-});
-
 app.post('/api/FoodPresets', cors(), async (req, res) => {
   // Add a new food preset for a trainee
   const { traineeId, food } = req.body;
@@ -331,8 +290,8 @@ app.post('/api/FoodPresets', cors(), async (req, res) => {
 
 app.delete('/api/FoodPresets', cors(), async (req, res) => {
   // Remove a food preset from the trainee's list
-  const { traineeId, foodName } = req.body;
-  const result = await database.removeFoodPreset(traineeId, foodName);
+  const { traineeId, foodId } = req.body;
+  const result = await database.removeFoodPreset(traineeId, foodId);
   res.sendStatus(result);
 });
 

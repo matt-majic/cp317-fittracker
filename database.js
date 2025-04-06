@@ -127,15 +127,12 @@ export async function updateCalorieTracker(id, date) {
 export async function getWorkoutPlan(id) {
     return { id: id }
 }
-export async function createworkoutplan(id) {
+export async function createWorkoutPlan(id) {
     return 200
 }
 // #endregion
 
 // #region Nutrition Tracker
-export async function getNutritionTracker(userId) {
-    return { userId: userId }
-}
 export async function addFood(userId, food, quantity) {
     return 200
 }
@@ -151,31 +148,19 @@ export async function getFoodLog(userId) {
 // #endregion
 
 // #region Application
-export async function getWorkoutPlan(id) {
-    return { id: id }
+export async function getAllWorkoutPlans() {
+    return [{ name: 'Workout Plan 1' }]
 }
-export async function addWorkoutPlan(plan) {
-    return 200
-}
-export async function getSession(id) {
-    return { id: id }
-}
-export async function addSession(session) {
-    return 200
-}
-export async function getMetList(name) {
-    return { name: name, met: 7.5 }
+export async function getMetList() {
+    return [{ met: 7.5 }]
 }
 // #endregion
 
 // #region Food
-export async function getFoodPresets(traineeId) {
-    return { traineeId: traineeId }
-}
 export async function addFoodPreset(traineeId, food) {
     return 200
 }
-export async function removeFoodPreset(traineeId, foodName) {
+export async function removeFoodPreset(traineeId, foodId) {
     return 200
 }
 // #endregion
