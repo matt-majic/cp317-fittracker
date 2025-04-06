@@ -1,0 +1,110 @@
+-- Users table
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255)
+);
+
+-- Trainees table (depends on users)
+CREATE TABLE trainees (
+    user_id INT PRIMARY KEY,
+    height INT,
+    weight INT,
+    gender VARCHAR(50),
+    age INT,
+    weightGoal INT, -- used for calorieGoal calc
+    weightGoalDuration INT, 
+    interests TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Trainers table (depends on users)
+CREATE TABLE trainers (
+    user_id INT PRIMARY KEY,
+    qualifications TEXT,
+    experience TEXT,
+    bankingInfo VARCHAR(255),
+    balance DECIMAL(10, 2),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Food items table (independent)
+CREATE TABLE food_items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    calories INT
+);
+
+-- Services table (parent of sessions and workout plans)
+CREATE TABLE services (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    trainee_id INT NOT NULL,
+    trainer_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    totalCalories INT NOT NULL,
+    date DATE NOT NULL,
+    FOREIGN KEY (trainee_id) REFERENCES trainees(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (trainer_id) REFERENCES trainers(user_id) ON DELETE CASCADE
+);
+
+-- Workout plans table (depends on services)
+CREATE TABLE workout_plans (
+    service_id INT PRIMARY KEY,
+    file TEXT NOT NULL,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
+);
+
+-- Sessions table (depends on services)
+CREATE TABLE sessions (
+    service_id INT PRIMARY KEY,
+    link TEXT NOT NULL,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
+);
+
+-- Calorie trackers table (depends on trainees)
+CREATE TABLE calorie_trackers (
+    user_id INT,
+    date DATE,
+    calorieIn INT DEFAULT 0,
+    calorieOut INT DEFAULT 0,
+    calorieGoal INT DEFAULT 2000, -- needs to be calculated, can simplify if wanted
+    PRIMARY KEY (user_id, date),
+    FOREIGN KEY (user_id) REFERENCES trainees(user_id) ON DELETE CASCADE
+);
+
+-- Nutrition trackers table (depends on trainees and food_items)
+CREATE TABLE nutrition_trackers (
+    user_id INT,
+    date DATE,
+    food_item_id INT,
+    quantity INT DEFAULT 1,
+    PRIMARY KEY (user_id, date, food_item_id),
+    FOREIGN KEY (user_id) REFERENCES trainees(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (food_item_id) REFERENCES food_items(id) ON DELETE CASCADE
+);
+
+-- Payment methods table (one per trainee)
+CREATE TABLE payment_methods (
+    user_id INT PRIMARY KEY,
+    issuer VARCHAR(255) NOT NULL,
+    cardHolderName VARCHAR(255) NOT NULL,
+    cardNum VARCHAR(255) NOT NULL,
+    expiration VARCHAR(10) NOT NULL,
+    cvv VARCHAR(10) NOT NULL,
+    billingAddress VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES trainees(user_id) ON DELETE CASCADE
+);
+
+-- Activities table (history for trainee)
+CREATE TABLE activities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    name VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    duration INT NOT NULL,
+    caloriesBurned INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES trainees(user_id) ON DELETE CASCADE
+);
