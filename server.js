@@ -319,6 +319,91 @@ app.get('/api/ServicesController/ActiveSessions/:traineeId', cors(), async (req,
   res.json(result);
 });
 
+// #endregion
+
+// #region Activity
+
+app.get('/api/Activity/:id', cors(), async (req, res) => {
+  // Retrieve a specific activity by ID
+  const id = req.params.id;
+  const result = await database.getActivity(id);
+  res.json(result);
+});
+
+app.get('/api/Activity/User/:userId', cors(), async (req, res) => {
+  // Get all activities logged by a specific user
+  const userId = req.params.userId;
+  const result = await database.getActivitiesByUser(userId);
+  res.json(result);
+});
+
+app.post('/api/Activity', cors(), async (req, res) => {
+  // Log a new activity for a user
+  const { userId, activity } = req.body;
+  const result = await database.addActivity(userId, activity);
+  res.sendStatus(result);
+});
+
+app.delete('/api/Activity/:id', cors(), async (req, res) => {
+  // Delete a specific activity
+  const id = req.params.id;
+  const result = await database.deleteActivity(id);
+  res.sendStatus(result);
+});
+
+// #endregion
+
+// #region Payment method
+
+app.get('/api/PaymentMethod/:traineeId', cors(), async (req, res) => {
+  //Get the saved payment method for a trainee
+  const traineeId = req.params.traineeId;
+  const result = await database.getPaymentMethod(traineeId);
+  res.json(result);
+});
+
+app.post('/api/PaymentMethod', cors(), async (req, res) => {
+  // Add or update a trainee's payment method
+  const { traineeId, paymentMethod } = req.body;
+  const result = await database.savePaymentMethod(traineeId, paymentMethod);
+  res.sendStatus(result);
+});
+
+app.delete('/api/PaymentMethod/:traineeId', cors(), async (req, res) => {
+  // Delete the saved payment method for a trainee
+  const traineeId = req.params.traineeId;
+  const result = await database.deletePaymentMethod(traineeId);
+  res.sendStatus(result);
+});
+
+// #endregion
+
+// #region Nutrition Controller
+
+app.post('/api/Nutrition/CalculateMacros', cors(), async (req, res) => {
+  // Calculates macro goals based on user input
+  const { weight, goal, activityLevel } = req.body;
+  const result = await database.calculateMacros(weight, goal, activityLevel);
+  res.json(result);
+});
+
+app.get('/api/Nutrition/Analyze/:userId', cors(), async (req, res) => {
+  // Analyzes current nutrition log for a user
+  const userId = req.params.userId;
+  const result = await database.analyzeNutrition(userId);
+  res.json(result);
+});
+
+app.get('/api/Nutrition/Recommendations/:userId', cors(), async (req, res) => {
+  // Provides nutrition tips or suggestions for a user
+  const userId = req.params.userId;
+  const result = await database.getNutritionRecommendations(userId);
+  res.json(result);
+});
+
+// #endregion
+
+
 // ExpressJS code
 app.use((err, req, res, next) => {
   console.error(err.stack)

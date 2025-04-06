@@ -222,3 +222,42 @@ export async function fetchActiveSessions(traineeId) {
     return { id: traineeId }
 }
 // #endregion
+
+// #region Activity
+export async function getActivity(id) {
+    return { id: id }
+}
+export async function getActivitiesByUser(userId) {
+    return { userId: userId, activities: [] }
+}
+export async function addActivity(userId, activity) {
+    return 200
+}
+export async function deleteActivity(id) {
+    return 200
+}
+// #endregion
+
+// #region Payment Method
+export async function getPaymentMethod(traineeId) {
+    return { traineeId: traineeId }
+}
+export async function savePaymentMethod(traineeId, paymentMethod) {
+    return 200
+}
+export async function deletePaymentMethod(traineeId) {
+    return 200
+}
+// #endregion
+
+// #region Nutrition Controller
+export async function calculateMacros(weight, goal, activityLevel) {
+    return { weight: weight }
+}
+export async function analyzeNutrition(userId) {
+    return { userId: userId }
+}
+export async function getNutritionRecommendations(userId) {
+    return { userId: userId }
+}
+// #endregion
