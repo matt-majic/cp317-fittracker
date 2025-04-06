@@ -3,7 +3,7 @@ js for the first page of the app. It shows the app logo, as well as two
 buttons: one says "Sign In" and the other says "Sign Up". 
 */ 
 
-// NOTE: The following code is the converted code, and was not written by a person
+// Note: The following code could potentially not work correctly 
 "use client";
 import * as React from "react";
 import styles from "./startPage.module.css";
