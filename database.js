@@ -22,54 +22,80 @@ async function query(sql, params) {
 
 // #region Trainee
 export async function getTrainee(id) {
-    const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
-    return trainee[0]
+    try {
+        const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
+        return trainee[0]
+    } catch (error){
+        console.error('Error: Get Trainee', error.message)
+        return 500
+    }
+    
 }
 
 export async function createTrainee(trainee) {
-    const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
+    try {
+        const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
 
-    // Step 1: Insert into users
-    const userResult = await query(
-        'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
-        [email, password, firstName, lastName]
-    )
-    const userId = userResult.insertId
-
-    // Step 2: Insert into trainees
-    await query(
-        `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [userId, height, weight, gender, age, weightGoal, weightGoalDuration, interests]
-    )
-
-    return 200
+        // Step 1: Insert into users
+        const userResult = await query(
+            'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
+            [email, password, firstName, lastName]
+        )
+        const userId = userResult.insertId
+    
+        // Step 2: Insert into trainees
+        await query(
+            `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [userId, height, weight, gender, age, weightGoal, weightGoalDuration, interests]
+        )
+    
+        return 200
+    } catch (error){
+        console.error('Error: Create Trainee', error.message)
+        return 500
+    }
+    
+    
 }
 
 
 export async function updateTrainee(id, trainee) {
-    const { height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
+    try {
+        const { height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
 
-    await query(
-        `UPDATE trainees
-         SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
-         WHERE user_id = ?`,
-        [height, weight, gender, age, weightGoal, weightGoalDuration, interests, id]
-    )
+        await query(
+            `UPDATE trainees
+            SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
+            WHERE user_id = ?`,
+            [height, weight, gender, age, weightGoal, weightGoalDuration, interests, id]
+        )
+    } catch (error){
+        console.error('Error: Update Trainee', error.message)
+        return 500
+    }
+    
 
     return 200
 }
 
 
 export async function getTraineeSessions(id) {
-    const sessions = await query(
-        `SELECT s.*, sess.link
-         FROM services s
-         JOIN sessions sess ON s.id = sess.service_id
-         WHERE s.trainee_id = ?`,
-        [id]
-    )
-    return sessions
+    try {
+        const sessions = await query(
+            `SELECT s.*, sess.link
+             FROM services s
+             JOIN sessions sess ON s.id = sess.service_id
+             WHERE s.trainee_id = ?`,
+            [id]
+        )
+        return sessions
+    } catch (error){
+        console.error('Error: Get TRainee Sessions', error.message)
+        return 500
+    }
+
+    
 }
 
 export async function getNutritionTracker(id) {
