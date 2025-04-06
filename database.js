@@ -22,54 +22,67 @@ async function query(sql, params) {
 
 // #region Trainee
 export async function getTrainee(id) {
-    const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
-    return trainee[0]
+    try {
+        const trainee = await query('SELECT * FROM trainees WHERE user_id = ?', [id])
+        return trainee[0]
+    } catch (error) {
+        console.error('Error: Get Trainee', error.message)
+        return {}
+    }
 }
 
 export async function createTrainee(trainee) {
-    const { email, password, firstName, lastName, height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
+    try {
+        const userResult = await query(
+            'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
+            [trainee["email"], trainee["password"], trainee["firstName"], trainee["lastName"]]
+        )
+        const userId = userResult.insertId
 
-    // Step 1: Insert into users
-    const userResult = await query(
-        'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
-        [email, password, firstName, lastName]
-    )
-    const userId = userResult.insertId
+        await query(
+            `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [userId, trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee["interests"]]
+        )
 
-    // Step 2: Insert into trainees
-    await query(
-        `INSERT INTO trainees (user_id, height, weight, gender, age, weightGoal, weightGoalDuration, interests)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [userId, height, weight, gender, age, weightGoal, weightGoalDuration, interests]
-    )
-
-    return 200
+        return 200
+    } catch (error) {
+        console.error('Error: Create Trainee', error.message)
+        return 400
+    }
 }
 
 
 export async function updateTrainee(id, trainee) {
-    const { height, weight, gender, age, weightGoal, weightGoalDuration, interests } = trainee
-
-    await query(
-        `UPDATE trainees
-         SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
-         WHERE user_id = ?`,
-        [height, weight, gender, age, weightGoal, weightGoalDuration, interests, id]
-    )
-
+    try {
+        await query(
+            `UPDATE trainees
+            SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
+            WHERE user_id = ?`,
+            [trainee["height"], trainee["weight"], trainee["gender"], trainee["age"], trainee["weightGoal"], trainee["weightGoalDuration"], trainee["interests"], id]
+        )
+    } catch (error) {
+        console.error('Error: Update Trainee', error.message)
+        return 400
+    }
     return 200
 }
 
 
 export async function getTraineeSessions(id) {
-    const sessions = await query(
-        `SELECT s.*, sess.link
-         FROM services s
-         JOIN sessions sess ON s.id = sess.service_id
-         WHERE s.trainee_id = ?`,
-        [id]
-    )
-    return sessions
+    try {
+        const sessions = await query(
+            `SELECT s.*, sess.link
+             FROM services s
+             JOIN sessions sess ON s.id = sess.service_id
+             WHERE s.trainee_id = ?`,
+            [id]
+        )
+        return sessions
+    } catch (error) {
+        console.error('Error: Get Trainee Sessions', error.message)
+        return []
+    }
 }
 
 export async function getNutritionTracker(id) {
@@ -91,22 +104,95 @@ export async function getPaymentMethod(id) {
 
 // #region Trainer
 export async function getTrainer(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT * FROM trainers WHERE user_id = ?`,
+            [id]
+        )
+        return result[0]
+    } catch (error) {
+        console.error('Error: Get Trainer', error.message)
+        return []
+    }
 }
 export async function createTrainer(trainer) {
-    return 200
+    try {
+        const userResult = await query(
+            'INSERT INTO users (email, password, firstName, lastName) VALUES (?, ?, ?, ?)',
+            [trainer["email"], trainer["password"], trainer["firstName"], trainer["lastName"]]
+        )
+        const userId = userResult.insertId
+
+        await query(
+            `INSERT INTO trainers (user_id, qualifications, experience, bankingInfo, balance)
+             VALUES (?, ?, ?, ?, ?)`,
+            [userId, trainer["qualifications"], trainer["experience"], trainer["bankingInfo"], trainer["balance"]]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Trainer', error.message)
+        return 400
+    }
 }
 export async function updateTrainer(id, trainer) {
+    try {
+        await query(
+            `UPDATE trainers
+            SET qualifications = ?, experience = ?, bankingInfo = ?, balance = ?
+            WHERE user_id = ?`,
+            [trainer["qualifications"], trainer["experience"], trainer["bankingInfo"], trainer["balance"], id]
+        )
+    } catch (error) {
+        console.error('Error: Update Trainer', error.message)
+        return 400
+    }
     return 200
 }
 export async function getTrainerSessions(id) {
-    return { id: id }
+    try {
+        const sessions = await query(
+            `SELECT s.*, sess.link
+             FROM services s
+             JOIN sessions sess ON s.id = sess.service_id
+             WHERE s.trainer_id = ?`,
+            [id]
+        )
+        return sessions
+    } catch (error) {
+        console.error('Error: Get Trainer Sessions', error.message)
+        return []
+    }
 }
 export async function getTrainerWorkoutPlans(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT *
+            FROM workout_plans wp JOIN services s ON wp.service_id = s.id
+            JOIN trainers tr ON s.trainer_id = tr.user_id
+            WHERE 
+            tr.user_id = ?`,
+            [id]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Trainer Workout Plans', error.message)
+        return []
+    }
 }
 export async function getTrainerBankingInfo(id) {
-    return { id: id }
+    try {
+        const result = await query(
+            `SELECT t.user_id, t.bankingInfo
+            FROM trainers t
+            WHERE t.user_id = ?`,
+            [id]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Trainer BankingInfo', error.message)
+        return []
+    }
 }
 // #endregion
 
@@ -139,44 +225,173 @@ export async function getTransactionHistory(trainerId) {
 
 
 // #region Session
-export async function getSession(id) {
-    return { id: id }
+export async function getSession(serviceId) {
+    try {
+        const session = await query(
+            `SELECT sess.*, s.*
+             FROM sessions sess
+             JOIN services s ON sess.service_id = s.id
+             WHERE sess.service_id = ?`,
+            [serviceId]
+        )
+        return session[0] // Return single session object
+    } catch (error) {
+        console.error('Error: Get Session', error.message)
+        return 400
+    }
 }
-export async function createSession(trainee) {
-    return 200
+
+export async function createSession(session) {
+    try {
+        const { trainee_id, trainer_id, name, description, totalCalories, date, link } = session
+
+        const serviceResult = await query(
+            `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [trainee_id, trainer_id, name, description, totalCalories, date]
+        )
+        const serviceId = serviceResult.insertId
+
+        await query(
+            `INSERT INTO sessions (service_id, link)
+             VALUES (?, ?)`,
+            [serviceId, link]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Session', error.message)
+        return 400
+    }
 }
-export async function updateSession(id, session) {
-    return 200
+export async function updateSession(serviceId, session) {
+    try {
+        const { name, description, totalCalories, date, link } = session
+
+        await query(
+            `UPDATE services
+             SET name = ?, description = ?, totalCalories = ?, date = ?
+             WHERE id = ?`,
+            [name, description, totalCalories, date, serviceId]
+        )
+
+        await query(
+            `UPDATE sessions
+             SET link = ?
+             WHERE service_id = ?`,
+            [link, serviceId]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Update Session', error.message)
+        return 400
+    }
 }
+
 // #endregion
 
 
 // #region CalorieTracker
 export async function getCalorieTrackers(id) {
-    return { id: id }
+    try {
+        const calorieTracker = await query('SELECT * FROM calorie_trackers WHERE user_id = ?', [id])
+        return calorieTracker
+    } catch (error) {
+        console.error('Error: Get Calorie Trackers', error.message)
+        return 500
+    }
 }
-export async function createCalorieTracker(id) {
-    return 200
+
+export async function createCalorieTracker(calorieTracker) {
+    try {
+        const { user_id, date, calorieIn, calorieOut, calorieGoal } = calorieTracker
+
+        await query(
+            'INSERT INTO calorie_trackers (user_id, date, calorieIn, calorieOut, calorieGoal) VALUES (?, ?, ?, ?, ?)',
+            [user_id, date, calorieIn, calorieOut, calorieGoal]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Create Calorie Tracker', error.message)
+        return 500
+    }
 }
+
+
 export async function getCalorieTracker(id, date) {
-    return { id: id, date: date }
+    try {
+        const calorieTracker = await query('SELECT * FROM calorie_trackers WHERE user_id = ? AND date = ?', [id, date])
+        return calorieTracker[0]
+    } catch (error) {
+        console.error('Error: Get Calorie Tracker', error.message)
+        return 500
+    }
 }
-export async function calorieTrackerController(id, date) {
-    return true
-}
-export async function updateCalorieTracker(id, date) {
-    return 200
+
+export async function updateCalorieTracker(id, date, calorieTracker) {
+    try {
+        const { calorieIn, calorieOut, calorieGoal } = calorieTracker
+
+        await query(
+            `UPDATE calorie_trackers
+            SET calorieIn = ?, calorieOut = ?, calorieGoal = ?
+            WHERE user_id = ? AND date = ?`,
+            [calorieIn, calorieOut, calorieGoal, id, date]
+        )
+        return 200
+    } catch (error){
+        console.error('Error: Update Calorie Tracker', error.message)
+        return 500
+    }
 }
 // #endregion
 
 // #region WorkoutPlan
 export async function getWorkoutPlan(id) {
-    return { id: id }
+    try {
+        const workout_plan = await query(
+            `SELECT wp.*, s.*
+             FROM workout_plans wp
+             JOIN services s ON wp.service_id = s.id
+             WHERE s.trainee_id = ?`,
+            [id]
+        )
+        return workout_plan
+    } catch (error) {
+        console.error('Error: Get Workout Plan', error.message)
+        return 400
+    }
 }
-export async function createWorkoutPlan(id) {
-    return 200
+
+export async function createWorkoutPlan(workoutPlan) {
+    try {
+        const { trainee_id, trainer_id, name, description, totalCalories, date, file } = workoutPlan
+
+        const serviceResult = await query(
+            `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [trainee_id, trainer_id, name, description, totalCalories, date]
+        )
+        const serviceId = serviceResult.insertId
+
+        await query(
+            `INSERT INTO workout_plans (service_id, file)
+             VALUES (?, ?)`,
+            [serviceId, file]
+        )
+
+        return { status: 200, serviceId }
+    } catch (error) {
+        console.error('Error: Create Workout Plan', error.message)
+        return { status: 400 }
+    }
 }
+
+
 // #endregion
+
 
 // #region Nutrition Tracker
 export async function addFood(userId, food, quantity) {

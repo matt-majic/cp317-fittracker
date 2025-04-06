@@ -226,11 +226,16 @@ app.get('/api/WorkoutPlan/:id', cors(), async (req, res) => {
 });
 
 app.post('/api/WorkoutPlan', cors(), async (req, res) => {
-  // Creates a Workoutplan
   const workoutPlan = req.body
-  const status = await database.createWorkoutPlan(workoutPlan)
-  res.sendStatus(status);
-});
+  const result = await database.createWorkoutPlan(workoutPlan)
+
+  if (result.status !== 200) {
+    return res.sendStatus(result.status)
+  }
+
+  res.status(200).json({ serviceId: result.serviceId })
+})
+
 //regionend
 
 // #region Nutrition Tracker
