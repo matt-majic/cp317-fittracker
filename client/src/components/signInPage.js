@@ -4,13 +4,13 @@ There's a button that says "log in", and a button that says "back".
 */
 
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"; // Import useHistory for navigation
 import "./signInPage.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const history = useHistory(); // Initialize useHistory
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,8 +19,13 @@ function SignIn() {
   };
 
   const handleBack = () => {
-    navigate("/"); // Navigate to the start page
+    history.push("/"); // Navigate to the start page
     console.log("Back button clicked");
+  };
+
+  const handleForgotPassword = () => {
+    history.push("/change-password"); // Navigate to the change password page
+    console.log("Forgot Password button clicked");
   };
 
   return (
@@ -54,7 +59,7 @@ function SignIn() {
           <button
             type="button"
             className="forgot-password-btn"
-            onClick={() => console.log("Forgot Password clicked")}
+            onClick={handleForgotPassword} // Call the navigation function
           >
             Forgot Password?
           </button>
@@ -72,4 +77,5 @@ function SignIn() {
     </div>
   );
 }
+
 export default SignIn;

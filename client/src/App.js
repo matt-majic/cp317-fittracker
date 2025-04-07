@@ -1,27 +1,26 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Customers from "./components/customers";
+
+// Components (ensure these paths are correct and components are properly exported)
 import StartPage from "./components/startPage";
 import SignIn from "./components/signInPage";
 import CreateAccount from "./components/createAccount";
 import ChangePassword from "./components/changePassword";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">React Express Starter</h1>
-        </header>
-        <Customers />
-        <ChangePassword />
-        <SignIn />
-      </div>
-    );
-  }
+console.log(StartPage, SignIn, CreateAccount, ChangePassword);
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={StartPage} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/create-account" component={CreateAccount} />
+        <Route path="/change-password" component={ChangePassword} />
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;

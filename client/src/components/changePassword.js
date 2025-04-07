@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./changePassword.css";
 
-function ChangePassword() {
+function ChangePassword({ history }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -19,7 +20,7 @@ function ChangePassword() {
   };
 
   const handleBack = () => {
-    // Your back navigation logic
+    history.push("/");
     console.log("Back button clicked");
   };
 

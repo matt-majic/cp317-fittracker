@@ -5,6 +5,7 @@ buttons: one says "Sign In" and the other says "Sign Up".
 
 "use client";
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 import "./startPage.css"; // not using styles from modules
 
 function StartPage() {
@@ -16,7 +17,15 @@ function StartPage() {
         alt="FITTracker Logo"
         className="logo"
       />
-      {/* You can add your buttons here if needed */}
+      <div className="button-group">
+        {/* Navigation buttons */}
+        <Link to="/signin" className="button sign-in-button">
+          Sign In
+        </Link>
+        <Link to="/create-account" className="button sign-up-button">
+          Sign Up
+        </Link>
+      </div>
     </main>
   );
 }

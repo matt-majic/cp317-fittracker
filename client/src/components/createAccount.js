@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./createAccount.css";
 
-function CreateAccount() {
+function CreateAccount({ history }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ function CreateAccount() {
   };
 
   const handleBack = () => {
-    // back navigation logic
+    history.push("/");
     console.log("Back button clicked");
   };
 
