@@ -188,7 +188,7 @@ export async function getTrainerSessions(id) {
 export async function getTrainerWorkoutPlans(id) {
     try {
         const result = await query(
-            `SELECT *
+            `SELECT s.*, wp.file
             FROM workout_plans wp JOIN services s ON wp.service_id = s.id
             JOIN trainers tr ON s.trainer_id = tr.user_id
             WHERE 
@@ -573,7 +573,6 @@ export async function completeService(traineeId, serviceId) {
         const totalCalories = service[0].totalCalories
         const today = new Date().toISOString().slice(0, 10)
 
-        
         const existingTracker = await query(
             `SELECT * FROM calorie_trackers WHERE user_id = ? AND date = ?`,
             [traineeId, today]
@@ -629,7 +628,7 @@ export async function savePaymentMethod(traineeId, paymentMethod) {
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [traineeId, issuer, cardHolderName, cardNum, expiration, cvv, billingAddress]
         )
-    
+
         return 200
 
     } catch (error) {
