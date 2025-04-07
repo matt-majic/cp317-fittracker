@@ -272,25 +272,23 @@ export async function getSession(serviceId) {
         return session[0] // Return single session object
     } catch (error) {
         console.error('Error: Get Session', error.message)
-        return 400
+        return []
     }
 }
 
 export async function createSession(session) {
     try {
-        const { trainee_id, trainer_id, name, description, totalCalories, date, link } = session
-
         const serviceResult = await query(
             `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
              VALUES (?, ?, ?, ?, ?, ?)`,
-            [trainee_id, trainer_id, name, description, totalCalories, date]
+            [session["trainee_id"], session["trainer_id"], session["name"], session["description"], session["totalCalories"], session["date"]]
         )
         const serviceId = serviceResult.insertId
 
         await query(
             `INSERT INTO sessions (service_id, link)
              VALUES (?, ?)`,
-            [serviceId, link]
+            [serviceId, session["link"]]
         )
 
         return 200
@@ -301,20 +299,18 @@ export async function createSession(session) {
 }
 export async function updateSession(serviceId, session) {
     try {
-        const { name, description, totalCalories, date, link } = session
-
         await query(
             `UPDATE services
              SET name = ?, description = ?, totalCalories = ?, date = ?
              WHERE id = ?`,
-            [name, description, totalCalories, date, serviceId]
+            [session["name"], session["description"], session["totalCalories"], session["date"], session["serviceId"]]
         )
 
         await query(
             `UPDATE sessions
              SET link = ?
              WHERE service_id = ?`,
-            [link, serviceId]
+            [session["link"], serviceId]
         )
 
         return 200
@@ -334,23 +330,20 @@ export async function getCalorieTrackers(id) {
         return calorieTracker
     } catch (error) {
         console.error('Error: Get Calorie Trackers', error.message)
-        return 500
+        return []
     }
 }
 
 export async function createCalorieTracker(calorieTracker) {
     try {
-        const { user_id, date, calorieIn, calorieOut, calorieGoal } = calorieTracker
-
         await query(
             'INSERT INTO calorie_trackers (user_id, date, calorieIn, calorieOut, calorieGoal) VALUES (?, ?, ?, ?, ?)',
-            [user_id, date, calorieIn, calorieOut, calorieGoal]
+            [calorieTracker["user_id"], calorieTracker["date"], calorieTracker["calorieIn"], calorieTracker["calorieOut"], calorieTracker["calorieGoal"]]
         )
-
         return 200
     } catch (error) {
         console.error('Error: Create Calorie Tracker', error.message)
-        return 500
+        return 400
     }
 }
 
@@ -361,24 +354,22 @@ export async function getCalorieTracker(id, date) {
         return calorieTracker[0]
     } catch (error) {
         console.error('Error: Get Calorie Tracker', error.message)
-        return 500
+        return []
     }
 }
 
 export async function updateCalorieTracker(id, date, calorieTracker) {
     try {
-        const { calorieIn, calorieOut, calorieGoal } = calorieTracker
-
         await query(
             `UPDATE calorie_trackers
             SET calorieIn = ?, calorieOut = ?, calorieGoal = ?
             WHERE user_id = ? AND date = ?`,
-            [calorieIn, calorieOut, calorieGoal, id, date]
+            [calorieTracker["calorieIn"], calorieTracker["calorieOut"], calorieTracker["calorieGoal"], id, date]
         )
         return 200
     } catch (error) {
         console.error('Error: Update Calorie Tracker', error.message)
-        return 500
+        return 400
     }
 }
 // #endregion
@@ -396,25 +387,23 @@ export async function getWorkoutPlan(id) {
         return workout_plan
     } catch (error) {
         console.error('Error: Get Workout Plan', error.message)
-        return 400
+        return []
     }
 }
 
 export async function createWorkoutPlan(workoutPlan) {
     try {
-        const { trainee_id, trainer_id, name, description, totalCalories, date, file } = workoutPlan
-
         const serviceResult = await query(
             `INSERT INTO services (trainee_id, trainer_id, name, description, totalCalories, date)
              VALUES (?, ?, ?, ?, ?, ?)`,
-            [trainee_id, trainer_id, name, description, totalCalories, date]
+            [workoutPlan["trainee_id"], workoutPlan["trainer_id"], workoutPlan["name"], workoutPlan["description"], workoutPlan["totalCalories"], workoutPlan["date"]]
         )
         const serviceId = serviceResult.insertId
 
         await query(
             `INSERT INTO workout_plans (service_id, file)
              VALUES (?, ?)`,
-            [serviceId, file]
+            [serviceId, workoutPlan["file"]]
         )
 
         return { status: 200, serviceId }
