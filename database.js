@@ -96,10 +96,6 @@ export async function getTraineeWorkoutPlans(id) {
 export async function getFoodPresets(id) {
     return { id: id }
 }
-
-export async function getPaymentMethod(id) {
-    return { id: id }
-}
 // #endregion
 
 // #region Trainer
@@ -212,6 +208,45 @@ export async function updatePaymentStatus(id, newStatus) {
 export async function getPaymentsByTraineeId(id) {
     return { id: id }
 }
+
+// Simple Payment
+export async function buyWorkoutPlan(workoutPlan) {
+    try {
+        const result = await createWorkoutPlan(workoutPlan)
+
+        if (result.status !== 200) {
+            return 400
+        }
+
+        const { serviceId } = result
+
+        const service = await query(
+            `SELECT trainer_id FROM services WHERE id = ?`,
+            [serviceId]
+        )
+
+        if (service.length === 0) {
+            console.error('Error: Service not found after creation')
+            return 400
+        }
+
+        const { trainer_id } = service[0]
+        // Assuming each cost $25 for simplicity
+        await query(
+            `UPDATE trainers
+             SET balance = balance + 25
+             WHERE user_id = ?`,
+            [trainer_id]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Buy Workout Plan', error.message)
+        return 400
+    }
+}
+
+
 // #endregion
 
 // #region Collect

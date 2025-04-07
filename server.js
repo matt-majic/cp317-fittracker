@@ -140,6 +140,21 @@ app.get('/api/Payment/Trainee/:id', cors(), async (req, res) => {
   res.json(payments);
 });
 
+// Simple
+app.post('/api/WorkoutPlan/Buy', cors(), async (req, res) => {
+  const workoutPlan = req.body
+  const result = await database.buyWorkoutPlan(workoutPlan)
+
+  if (result.status !== 200) {
+    return res.sendStatus(result.status)
+  }
+
+  res.status(200).json({
+    serviceId: result.serviceId,
+    newBalance: result.newBalance
+  })
+})
+
 // #endregion
 
 // #region Collect
