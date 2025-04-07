@@ -1,0 +1,3 @@
+/*
+where the trainer can edit their banking information. 
+*/
