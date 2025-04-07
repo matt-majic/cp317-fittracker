@@ -426,7 +426,7 @@ export async function addFood(userId, foodId, quantity) {
         )
         return 200
     } catch (error) {
-        console.error('Error: Add Food', error.message)
+        console.error('Error: Add Food (NT)', error.message)
         return 400
     }
 }
@@ -446,7 +446,7 @@ export async function modifyFoodQuantity(userId, foodId, quantity) {
             )
         return 200
     } catch (error) {
-        console.error('Error: Remove Food', error.message)
+        console.error('Error: Remove Food (NT)', error.message)
         return 400
     }
 }
@@ -491,11 +491,29 @@ export async function getMetList() {
 // #endregion
 
 // #region Food
-export async function addFoodPreset(traineeId, food) {
-    return 200
+export async function addFoodItem(food) {
+    try {
+        await query(
+            'INSERT INTO food_items (name, calories) VALUES (?, ?)',
+            [food["name"], food["calories"]]
+        )
+        return 200
+    } catch (error) {
+        console.error('Error: Add Food Item', error.message)
+        return 400
+    }
 }
-export async function removeFoodPreset(traineeId, foodId) {
-    return 200
+export async function removeFoodItem(foodId) {
+    try {
+        await query(
+            'DELETE FROM food_items WHERE id = ?',
+            [foodId]
+        )
+        return 200
+    } catch (error) {
+        console.error('Error: Remove Food Item', error.message)
+        return 400
+    }
 }
 // #endregion
 

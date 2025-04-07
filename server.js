@@ -301,17 +301,17 @@ app.get('/api/Application/MetList/', cors(), async (req, res) => {
 // #endregion
 
 // #region Food 
-app.post('/api/FoodPresets', cors(), async (req, res) => {
-  // Add a new food preset for a trainee
-  const { traineeId, food } = req.body;
-  const result = await database.addFoodPreset(traineeId, food);
+app.post('/api/FoodItems', cors(), async (req, res) => {
+  // Add a new food
+  const food = req.body;
+  const result = await database.addFoodItem(food);
   res.sendStatus(result);
 });
 
-app.delete('/api/FoodPresets', cors(), async (req, res) => {
-  // Remove a food preset from the trainee's list
-  const { traineeId, foodId } = req.body;
-  const result = await database.removeFoodPreset(traineeId, foodId);
+app.delete('/api/FoodItems', cors(), async (req, res) => {
+  // Remove a food by id
+  const { foodId } = req.body;
+  const result = await database.removeFoodItem(foodId);
   res.sendStatus(result);
 });
 
