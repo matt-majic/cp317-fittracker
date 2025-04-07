@@ -573,12 +573,26 @@ export async function completeService(traineeId, serviceId) {
         const totalCalories = service[0].totalCalories
         const today = new Date().toISOString().slice(0, 10)
 
-        await query(
-            `UPDATE calorie_trackers
-             SET calorieOut = calorieOut + ?
-             WHERE user_id = ? AND date = ?`,
-            [totalCalories, traineeId, today]
+        
+        const existingTracker = await query(
+            `SELECT * FROM calorie_trackers WHERE user_id = ? AND date = ?`,
+            [traineeId, today]
         )
+
+        if (existingTracker.length === 0) {
+            await query(
+                `INSERT INTO calorie_trackers (user_id, date, calorieIn, calorieOut, calorieGoal)
+                 VALUES (?, ?, 0, ?, 2000)`,
+                [traineeId, today, totalCalories]
+            )
+        } else {
+            await query(
+                `UPDATE calorie_trackers
+                 SET calorieOut = calorieOut + ?
+                 WHERE user_id = ? AND date = ?`,
+                [totalCalories, traineeId, today]
+            )
+        }
 
         return 200
     } catch (error) {
@@ -586,6 +600,7 @@ export async function completeService(traineeId, serviceId) {
         return 400
     }
 }
+
 
 // #endregion
 
