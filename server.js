@@ -35,14 +35,7 @@ app.put('/api/Trainee/:id', cors(), async (req, res) => {
   const id = req.params.id
   const status = await database.updateTrainee(id, trainee) // 200 if created, 400 if bad
   res.sendStatus(status);
-});
-
-app.get('/api/Trainee/:id/Sessions', cors(), async (req, res) => {
-  // Get all trainee sessions by trainee id
-  const id = req.params.id
-  const result = await database.getTraineeSessions(id)
-  res.json(result);
-});
+})
 
 app.get('/api/Trainee/:id/NutritionTracker', cors(), async (req, res) => {
   // Get nutrition trackers by trainee id
@@ -201,7 +194,7 @@ app.post('/api/Nutrition/AddFood', cors(), async (req, res) => {
   res.sendStatus(result);
 });
 
-app.post('/api/Nutrition/ModifyFood', cors(), async (req, res) => {
+app.put('/api/Nutrition/ModifyFood', cors(), async (req, res) => {
   // Modifys a food item quantity in the user's nutrition tracker
   const { userId, foodId, quantity } = req.body;
   const result = await database.modifyFoodQuantity(userId, foodId, quantity);
@@ -226,9 +219,9 @@ app.get('/api/Nutrition/FoodLog/:userId', cors(), async (req, res) => {
 
 // #region Application
 
-app.get('/api/Application/WorkoutPlans', cors(), async (req, res) => {
+app.get('/api/Application/Services', cors(), async (req, res) => {
   // Get all workout plans
-  const result = await database.getAllWorkoutPlans();
+  const result = await database.getAllServices();
   res.json(result);
 });
 

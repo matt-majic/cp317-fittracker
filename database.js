@@ -88,23 +88,6 @@ export async function updateTrainee(id, trainee) {
     return 200
 }
 
-
-export async function getTraineeSessions(id) {
-    try {
-        const sessions = await query(
-            `SELECT s.*, sess.link
-             FROM services s
-             JOIN sessions sess ON s.id = sess.service_id
-             WHERE s.trainee_id = ?`,
-            [id]
-        )
-        return sessions
-    } catch (error) {
-        console.error('Error: Get Trainee Sessions', error.message)
-        return []
-    }
-}
-
 export async function getNutritionTracker(id) {
     try {
         const tracker = await query(
@@ -225,7 +208,7 @@ export async function buyWorkoutPlan(workoutPlan) {
         const result = await createWorkoutPlan(workoutPlan)
 
         if (result.status !== 200) {
-            return 400
+            return { status: result.status }
         }
 
         const { serviceId } = result
@@ -237,11 +220,11 @@ export async function buyWorkoutPlan(workoutPlan) {
 
         if (service.length === 0) {
             console.error('Error: Service not found after creation')
-            return 400
+            return { status: 400 }
         }
 
         const { trainer_id } = service[0]
-        // Assuming each cost $25 for simplicity
+
         await query(
             `UPDATE trainers
              SET balance = balance + 25
@@ -249,13 +232,20 @@ export async function buyWorkoutPlan(workoutPlan) {
             [trainer_id]
         )
 
-        return 200
+        const trainer = await query(
+            `SELECT balance FROM trainers WHERE user_id = ?`,
+            [trainer_id]
+        )
+
+        const newBalance = trainer[0].balance
+
+        return { status: 200}
+
     } catch (error) {
         console.error('Error: Buy Workout Plan', error.message)
-        return 400
+        return { status: 400 }
     }
 }
-
 
 // #endregion
 
@@ -299,18 +289,21 @@ export async function createSession(session) {
 }
 export async function updateSession(serviceId, session) {
     try {
+        // Split service and session properties
+        const { name, description, totalCalories, date, link } = session
+
         await query(
             `UPDATE services
              SET name = ?, description = ?, totalCalories = ?, date = ?
              WHERE id = ?`,
-            [session["name"], session["description"], session["totalCalories"], session["date"], session["serviceId"]]
+            [name, description, totalCalories, date, serviceId]
         )
 
         await query(
             `UPDATE sessions
              SET link = ?
              WHERE service_id = ?`,
-            [session["link"], serviceId]
+            [link, serviceId]
         )
 
         return 200
@@ -319,6 +312,8 @@ export async function updateSession(serviceId, session) {
         return 400
     }
 }
+
+
 
 // #endregion
 
@@ -420,52 +415,71 @@ export async function createWorkoutPlan(workoutPlan) {
 // #region Nutrition Tracker
 export async function addFood(userId, foodId, quantity) {
     try {
+        // Insert or update the quantity if it already exists
         await query(
-            'INSERT INTO nutrition_trackers (user_id, date, food_item_id, quantity) VALUES (?, CURRENT_DATE, ?, ?)',
+            `INSERT INTO nutrition_trackers (user_id, date, food_item_id, quantity)
+             VALUES (?, CURRENT_DATE, ?, ?)
+             ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)`,
             [userId, foodId, quantity]
         )
-        const totalCals = await getTotalCalories(userId)
-        // Update calorie tracker with total cals for today
+
+        // After updating, recalculate total calories
+        const totalCalsResult = await getTotalCalories(userId)
+        const totalCals = totalCalsResult[0]?.totalCalories || 0
+
+        // Update the calorie tracker with the new total calories
         await query(
             `UPDATE calorie_trackers
-            SET calorieIn = ?
-            WHERE user_id = ? AND date = CURRENT_DATE`,
+             SET calorieIn = ?
+             WHERE user_id = ? AND date = CURRENT_DATE`,
             [totalCals, userId]
         )
+
         return 200
     } catch (error) {
         console.error('Error: Add Food (NT)', error.message)
         return 400
     }
 }
+
+
 export async function modifyFoodQuantity(userId, foodId, quantity) {
     try {
-        if (quantity <= 0)
+        if (quantity <= 0) {
+            // Remove item if quantity is 0 or less
             await query(
                 'DELETE FROM nutrition_trackers WHERE user_id = ? AND food_item_id = ? AND date = CURRENT_DATE',
                 [userId, foodId]
             )
-        else
+        } else {
+            // Update item if quantity is positive
             await query(
                 `UPDATE nutrition_trackers
-                SET quantity = ?
-                WHERE user_id = ? AND date = CURRENT_DATE AND food_item_id = ?`,
+                 SET quantity = ?
+                 WHERE user_id = ? AND date = CURRENT_DATE AND food_item_id = ?`,
                 [quantity, userId, foodId]
             )
-        const totalCals = await getTotalCalories(userId)
-        // Update calorie tracker with total cals for today
+        }
+
+        // Recalculate total calories after update/delete
+        const totalCalsResult = await getTotalCalories(userId)
+        const totalCals = totalCalsResult[0]?.totalCalories || 0
+
+        // Update calorie tracker
         await query(
             `UPDATE calorie_trackers
-                SET calorieIn = ?
-                WHERE user_id = ? AND date = CURRENT_DATE`,
+             SET calorieIn = ?
+             WHERE user_id = ? AND date = CURRENT_DATE`,
             [totalCals, userId]
         )
+
         return 200
     } catch (error) {
-        console.error('Error: Remove Food (NT)', error.message)
+        console.error('Error: Modify Food (NT)', error.message)
         return 400
     }
 }
+
 export async function getTotalCalories(userId) {
     try {
         const result = await query(
@@ -498,7 +512,7 @@ export async function getFoodLog(userId) {
 // #endregion
 
 // #region Application
-export async function getAllWorkoutPlans() {
+export async function getAllServices() {
     try {
         const workoutPlans = await query(
             `SELECT workout_plans.*, services.*
@@ -529,6 +543,7 @@ export async function addFoodItem(food) {
         return 400
     }
 }
+
 export async function removeFoodItem(foodId) {
     try {
         await query(
