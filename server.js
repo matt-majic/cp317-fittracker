@@ -355,6 +355,23 @@ app.get('/api/ServicesController/ActiveSessions/:traineeId', cors(), async (req,
   res.json(result);
 });
 
+// #region Service Controller
+
+app.get('/api/Service/Trainee/:traineeId', cors(), async (req, res) => {
+  const traineeId = req.params.traineeId
+  const services = await database.getTraineeServices(traineeId)
+  res.json(services)
+})
+
+app.post('/api/Service/Complete', cors(), async (req, res) => {
+  const { traineeId, serviceId } = req.body
+  const status = await database.completeService(traineeId, serviceId)
+  res.sendStatus(status)
+})
+
+// #endregion
+
+
 // #endregion
 
 // #region Activity

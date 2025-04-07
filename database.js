@@ -592,6 +592,53 @@ export async function addActivity(userId, activity) {
 export async function deleteActivity(id) {
     return 200
 }
+// #region Service Controller
+
+export async function getTraineeServices(traineeId) {
+    try {
+        const services = await query(
+            `SELECT services.*, workout_plans.file AS workoutPlanFile, sess.link AS sessionLink
+             FROM services
+             LEFT JOIN workout_plans ON services.id = workout_plans.service_id
+             LEFT JOIN sessions sess ON services.id = sess.service_id
+             WHERE services.trainee_id = ?`,
+            [traineeId]
+        )
+
+        return services
+    } catch (error) {
+        console.error('Error: Get Trainee Services', error.message)
+        return 400
+    }
+}
+
+export async function completeService(traineeId, serviceId) {
+    try {
+        const service = await query(
+            `SELECT totalCalories FROM services WHERE id = ? AND trainee_id = ?`,
+            [serviceId, traineeId]
+        )
+
+        const totalCalories = service[0].totalCalories
+        const today = new Date().toISOString().slice(0, 10)
+
+        await query(
+            `UPDATE calorie_trackers
+             SET calorieOut = calorieOut + ?
+             WHERE user_id = ? AND date = ?`,
+            [totalCalories, traineeId, today]
+        )
+
+        return 200
+    } catch (error) {
+        console.error('Error: Complete Service', error.message)
+        return 400
+    }
+}
+
+// #endregion
+
+
 // #endregion
 
 // #region Payment Method
