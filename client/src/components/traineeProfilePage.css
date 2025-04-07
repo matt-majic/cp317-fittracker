@@ -1,4 +1,87 @@
-/*
-cs for the profile page, which has information about the user, as well as 
-buttons for edit profile, log out, and view financials. 
-*/
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background-color: #f2f2f2;
+  min-height: 100vh;
+}
+
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #4a90e2;
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0;
+}
+
+.profile-email,
+.profile-type {
+  font-size: 16px;
+  color: #666;
+  margin: 4px 0;
+}
+
+.button-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.button-list button {
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-list button:hover {
+  background-color: #357ab8;
+}
+
+.logout-button {
+  background-color: #e74c3c !important;
+}
+
+.logout-button:hover {
+  background-color: #c0392b !important;
+}
+
+.profile-description {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #444;
+}
+
+.profile-description p {
+  margin: 0;
+  text-align: center;
+}
