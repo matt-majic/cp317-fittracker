@@ -256,15 +256,15 @@ app.post('/api/WorkoutPlan', cors(), async (req, res) => {
 // #region Nutrition Tracker
 app.post('/api/Nutrition/AddFood', cors(), async (req, res) => {
   // Adds a food item to the user's nutrition tracker
-  const { userId, food, quantity } = req.body;
-  const result = await database.addFood(userId, food, quantity);
+  const { userId, foodId, quantity } = req.body;
+  const result = await database.addFood(userId, foodId, quantity);
   res.sendStatus(result);
 });
 
-app.post('/api/Nutrition/RemoveFood', cors(), async (req, res) => {
-  // Removes a food item from the user's nutrition tracker
-  const { userId, food } = req.body;
-  const result = await database.removeFood(userId, food);
+app.post('/api/Nutrition/ModifyFood', cors(), async (req, res) => {
+  // Modifys a food item quantity in the user's nutrition tracker
+  const { userId, foodId, quantity } = req.body;
+  const result = await database.modifyFoodQuantity(userId, foodId, quantity);
   res.sendStatus(result);
 });
 

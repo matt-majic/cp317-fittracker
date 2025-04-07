@@ -376,7 +376,7 @@ export async function updateCalorieTracker(id, date, calorieTracker) {
             [calorieIn, calorieOut, calorieGoal, id, date]
         )
         return 200
-    } catch (error){
+    } catch (error) {
         console.error('Error: Update Calorie Tracker', error.message)
         return 500
     }
@@ -429,17 +429,66 @@ export async function createWorkoutPlan(workoutPlan) {
 
 
 // #region Nutrition Tracker
-export async function addFood(userId, food, quantity) {
-    return 200
+export async function addFood(userId, foodId, quantity) {
+    try {
+        await query(
+            'INSERT INTO nutrition_trackers (user_id, date, food_item_id, quantity) VALUES (?, CURRENT_DATE, ?, ?)',
+            [userId, foodId, quantity]
+        )
+        return 200
+    } catch (error) {
+        console.error('Error: Add Food', error.message)
+        return 400
+    }
 }
-export async function removeFood(userId, food) {
-    return 200
+export async function modifyFoodQuantity(userId, foodId, quantity) {
+    try {
+        if (quantity <= 0)
+            await query(
+                'DELETE FROM nutrition_trackers WHERE user_id = ? AND food_item_id = ? AND date = CURRENT_DATE',
+                [userId, foodId]
+            )
+        else
+            await query(
+                `UPDATE nutrition_trackers
+                SET quantity = ?
+                WHERE user_id = ? AND date = CURRENT_DATE AND food_item_id = ?`,
+                [quantity, userId, foodId]
+            )
+        return 200
+    } catch (error) {
+        console.error('Error: Remove Food', error.message)
+        return 400
+    }
 }
 export async function getTotalCalories(userId) {
-    return { userId: userId, totalCalories: 1234 }
+    try {
+        const result = await query(
+            `SELECT SUM(ft.calories * nt.quantity) AS totalCalories
+            FROM nutrition_trackers nt
+            JOIN food_items ft ON nt.food_item_id = ft.id
+            WHERE nt.user_id = ? AND nt.date = CURRENT_DATE
+            `, [userId]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Total Calories', error.message)
+        return []
+    }
 }
 export async function getFoodLog(userId) {
-    return { userId: userId, foodItems: [] }
+    try {
+        const result = await query(
+            `SELECT fi.name AS foodName, nt.quantity, fi.calories
+            FROM nutrition_trackers nt
+            JOIN food_items fi ON nt.food_item_id = fi.id
+            WHERE nt.user_id = ? AND nt.date = CURRENT_DATE`, [userId]
+        )
+        return result
+    } catch (error) {
+        console.error('Error: Get Food Log', error.message)
+        return []
+    }
 }
 // #endregion
 
