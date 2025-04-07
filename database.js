@@ -108,14 +108,6 @@ export async function getTraineeSessions(id) {
 export async function getNutritionTracker(id) {
     return { id: id }
 }
-
-export async function getTraineeWorkoutPlans(id) {
-    return { id: id }
-}
-
-export async function getFoodPresets(id) {
-    return { id: id }
-}
 // #endregion
 
 // #region Trainer
@@ -213,21 +205,6 @@ export async function getTrainerBankingInfo(id) {
 // #endregion
 
 // #region Payment
-export async function createPayment(payment) {
-    return 200
-}
-export async function getPayment(id) {
-    return { id: id }
-}
-export async function getPaymentsByTrainerId(id) {
-    return { id: id }
-}
-export async function updatePaymentStatus(id, newStatus) {
-    return 200
-}
-export async function getPaymentsByTraineeId(id) {
-    return { id: id }
-}
 
 // Simple Payment
 export async function buyWorkoutPlan(workoutPlan) {
@@ -268,16 +245,6 @@ export async function buyWorkoutPlan(workoutPlan) {
 
 
 // #endregion
-
-// #region Collect
-export async function processWithdrawal(trainerId, amount) {
-    return true
-}
-export async function getTransactionHistory(trainerId) {
-    return { trainerId: trainerId }
-}
-// #endregion
-
 
 // #region Session
 export async function getSession(serviceId) {
@@ -534,10 +501,6 @@ export async function getAllWorkoutPlans() {
     }
 }
 
-
-export async function getMetList() {
-    return [{ met: 7.5 }]
-}
 // #endregion
 
 // #region Food
@@ -567,31 +530,6 @@ export async function removeFoodItem(foodId) {
 }
 // #endregion
 
-// #region Services Controller
-export async function addActiveSession(sessionId) {
-    return 200
-}
-export async function removeActiveSession(sessionId) {
-    return 200
-}
-export async function fetchActiveSessions(traineeId) {
-    return { id: traineeId }
-}
-// #endregion
-
-// #region Activity
-export async function getActivity(id) {
-    return { id: id }
-}
-export async function getActivitiesByUser(userId) {
-    return { userId: userId, activities: [] }
-}
-export async function addActivity(userId, activity) {
-    return 200
-}
-export async function deleteActivity(id) {
-    return 200
-}
 // #region Service Controller
 
 export async function getTraineeServices(traineeId) {
@@ -635,9 +573,6 @@ export async function completeService(traineeId, serviceId) {
         return 400
     }
 }
-
-// #endregion
-
 
 // #endregion
 
@@ -691,16 +626,4 @@ export async function deletePaymentMethod(traineeId) {
     }
 }
 
-// #endregion
-
-// #region Nutrition Controller
-export async function calculateMacros(weight, goal, activityLevel) {
-    return { weight: weight }
-}
-export async function analyzeNutrition(userId) {
-    return { userId: userId }
-}
-export async function getNutritionRecommendations(userId) {
-    return { userId: userId }
-}
 // #endregion

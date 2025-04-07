@@ -51,26 +51,6 @@ app.get('/api/Trainee/:id/NutritionTracker', cors(), async (req, res) => {
   res.json(result);
 });
 
-app.get('/api/Trainee/:id/WorkoutPlans', cors(), async (req, res) => {
-  // Get trainee workout plans by trainee id
-  const id = req.params.id
-  const result = await database.getTraineeWorkoutPlans(id)
-  res.json(result);
-});
-
-app.get('/api/Trainee/:id/PaymentMethod', cors(), async (req, res) => {
-  // Get trainee payment method by trainee id
-  const id = req.params.id
-  const result = await database.getPaymentMethod(id)
-  res.json(result);
-});
-
-app.get('/api/Trainee/:id/FoodPresets', cors(), async (req, res) => {
-  // Get trainee food presets by trainee id
-  const id = req.params.id
-  const result = await database.getFoodPresets(id)
-  res.json(result);
-});
 // #endregion
 
 // #region Trainer
@@ -120,36 +100,6 @@ app.get('/api/Trainer/:id/BankingInfo', cors(), async (req, res) => {
 // #endregion
 
 // #region Payment
-
-app.post('/api/Payment', cors(), async (req, res) => {
-  // Creates a new payment
-  const payment = req.body;
-  const status = await database.createPayment(payment);
-  res.sendStatus(status);
-});
-
-app.get('/api/Payment/:id', cors(), async (req, res) => {
-  // Retrieves a single payment by its ID
-  const id = req.params.id;
-  const payment = await database.getPayment(id);
-  res.json(payment);
-});
-
-app.get('/api/Payment/Trainer/:id', cors(), async (req, res) => {
-  //Gets all payments made by or received by a trainer
-  const id = req.params.id;
-  const payments = await database.getPaymentsByTrainerId(id);
-  res.json(payments);
-});
-
-app.get('/api/Payment/Trainee/:id', cors(), async (req, res) => {
-  //Gets all payments made by or received by a trainee
-  const id = req.params.id;
-  const payments = await database.getPaymentsByTraineeId(id);
-  res.json(payments);
-});
-
-// Simple
 app.post('/api/WorkoutPlan/Buy', cors(), async (req, res) => {
   const workoutPlan = req.body
   const result = await database.buyWorkoutPlan(workoutPlan)
@@ -163,25 +113,6 @@ app.post('/api/WorkoutPlan/Buy', cors(), async (req, res) => {
     newBalance: result.newBalance
   })
 })
-
-// #endregion
-
-// #region Collect
-
-app.post('/api/Collect/Withdraw', cors(), async (req, res) => {
-  // Allows a trainer to request a withdrawal from their account
-  const { trainerId, amount } = req.body;
-  const success = await database.processWithdrawal(trainerId, amount);
-  res.sendStatus(success ? 200 : 400);
-});
-
-app.get('/api/Collect/History/:trainerId', cors(), async (req, res) => {
-  // Retrieves a trainer's full payment transaction history
-  const trainerId = req.params.trainerId;
-  const transactions = await database.getTransactionHistory(trainerId);
-  res.json(transactions);
-});
-
 // #endregion
 
 // #region Session
@@ -249,13 +180,6 @@ app.get('/api/WorkoutPlan/:id', cors(), async (req, res) => {
   res.json(workoutPlan);
 });
 
-app.get('/api/WorkoutPlans/:id', cors(), async (req, res) => {
-  // Get a specific workoutPlan
-  const id = req.params.id
-  const workoutPlan = await database.getWorkoutPlan(id)
-  res.json(workoutPlan);
-});
-
 app.post('/api/WorkoutPlan', cors(), async (req, res) => {
   const workoutPlan = req.body
   const result = await database.createWorkoutPlan(workoutPlan)
@@ -308,12 +232,6 @@ app.get('/api/Application/WorkoutPlans', cors(), async (req, res) => {
   res.json(result);
 });
 
-app.get('/api/Application/MetList/', cors(), async (req, res) => {
-  // Retrieve MET information for activities
-  const result = await database.getMetList();
-  res.json(result);
-});
-
 // #endregion
 
 // #region Food 
@@ -333,28 +251,6 @@ app.delete('/api/FoodItems', cors(), async (req, res) => {
 
 // #endregion
 
-// #region Services Controller
-app.post('/api/ServicesController/ActiveSessions', cors(), async (req, res) => {
-  // Adds an active session
-  const { sessionId } = req.body
-  const status = await database.addActiveSession(sessionId)
-  res.sendStatus(status);
-});
-
-app.delete('/api/ServicesController/ActiveSessions', cors(), async (req, res) => {
-  // Remove an active session
-  const { sessionId } = req.body
-  const status = await database.removeActiveSession(sessionId)
-  res.sendStatus(status);
-});
-
-app.get('/api/ServicesController/ActiveSessions/:traineeId', cors(), async (req, res) => {
-  // Retrieve active sessions for trainee id
-  const id = req.params.traineeId;
-  const result = await database.fetchActiveSessions(id);
-  res.json(result);
-});
-
 // #region Service Controller
 
 app.get('/api/Service/Trainee/:traineeId', cors(), async (req, res) => {
@@ -368,41 +264,6 @@ app.post('/api/Service/Complete', cors(), async (req, res) => {
   const status = await database.completeService(traineeId, serviceId)
   res.sendStatus(status)
 })
-
-// #endregion
-
-
-// #endregion
-
-// #region Activity
-
-app.get('/api/Activity/:id', cors(), async (req, res) => {
-  // Retrieve a specific activity by ID
-  const id = req.params.id;
-  const result = await database.getActivity(id);
-  res.json(result);
-});
-
-app.get('/api/Activity/User/:userId', cors(), async (req, res) => {
-  // Get all activities logged by a specific user
-  const userId = req.params.userId;
-  const result = await database.getActivitiesByUser(userId);
-  res.json(result);
-});
-
-app.post('/api/Activity', cors(), async (req, res) => {
-  // Log a new activity for a user
-  const { userId, activity } = req.body;
-  const result = await database.addActivity(userId, activity);
-  res.sendStatus(result);
-});
-
-app.delete('/api/Activity/:id', cors(), async (req, res) => {
-  // Delete a specific activity
-  const id = req.params.id;
-  const result = await database.deleteActivity(id);
-  res.sendStatus(result);
-});
 
 // #endregion
 
@@ -427,31 +288,6 @@ app.delete('/api/PaymentMethod/:traineeId', cors(), async (req, res) => {
   const traineeId = req.params.traineeId;
   const result = await database.deletePaymentMethod(traineeId);
   res.sendStatus(result);
-});
-
-// #endregion
-
-// #region Nutrition Controller
-
-app.post('/api/Nutrition/CalculateMacros', cors(), async (req, res) => {
-  // Calculates macro goals based on user input
-  const { weight, goal, activityLevel } = req.body;
-  const result = await database.calculateMacros(weight, goal, activityLevel);
-  res.json(result);
-});
-
-app.get('/api/Nutrition/Analyze/:userId', cors(), async (req, res) => {
-  // Analyzes current nutrition log for a user
-  const userId = req.params.userId;
-  const result = await database.analyzeNutrition(userId);
-  res.json(result);
-});
-
-app.get('/api/Nutrition/Recommendations/:userId', cors(), async (req, res) => {
-  // Provides nutrition tips or suggestions for a user
-  const userId = req.params.userId;
-  const result = await database.getNutritionRecommendations(userId);
-  res.json(result);
 });
 
 // #endregion
