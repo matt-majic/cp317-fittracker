@@ -1,0 +1,21 @@
+.toggle-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.toggle-tabs button {
+  padding: 10px 20px;
+  border: none;
+  margin: 0 10px;
+  border-radius: 20px;
+  background-color: #eee;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.toggle-tabs button.active {
+  background-color: #c6ff00;
+  color: black;
+}

@@ -5,10 +5,12 @@ There's a button that says "log in", and a button that says "back".
 
 import React, { useState } from "react";
 import "./signInPage.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ function SignIn() {
   };
 
   const handleBack = () => {
-    // Handle back button logic here
+    navigate("/"); // Navigate to the start page
     console.log("Back button clicked");
   };
 
@@ -50,7 +52,7 @@ function SignIn() {
 
         <div className="forgot-password">
           <button
-            types="button"
+            type="button"
             className="forgot-password-btn"
             onClick={() => console.log("Forgot Password clicked")}
           >
@@ -59,11 +61,11 @@ function SignIn() {
         </div>
 
         <div className="button-group">
-          <button type="submit" className="signin-button">
-            Log In
-          </button>
           <button type="button" className="back-button" onClick={handleBack}>
             Back
+          </button>
+          <button type="submit" className="signin-button">
+            Log In
           </button>
         </div>
       </form>

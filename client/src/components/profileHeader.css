@@ -1,0 +1,37 @@
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 4px solid #000;
+  color: white;
+  border-radius: 0 0 20px 20px;
+}
+
+.profile-left h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile-left p {
+  margin: 4px;
+}
+
+.gender {
+  font-size: 18px;
+  margin-left: 6px;
+}
+
+.metrics {
+  display: flex;
+  gap: 16px;
+  font-weight: bold;
+}
+
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
