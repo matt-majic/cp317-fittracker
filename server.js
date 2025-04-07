@@ -249,6 +249,13 @@ app.get('/api/WorkoutPlan/:id', cors(), async (req, res) => {
   res.json(workoutPlan);
 });
 
+app.get('/api/WorkoutPlans/:id', cors(), async (req, res) => {
+  // Get a specific workoutPlan
+  const id = req.params.id
+  const workoutPlan = await database.getWorkoutPlan(id)
+  res.json(workoutPlan);
+});
+
 app.post('/api/WorkoutPlan', cors(), async (req, res) => {
   const workoutPlan = req.body
   const result = await database.createWorkoutPlan(workoutPlan)

@@ -523,8 +523,8 @@ export async function getAllWorkoutPlans() {
         const workoutPlans = await query(
             `SELECT workout_plans.*, services.*
              FROM workout_plans
-             JOIN services ON workout_plans.service_id = service.id
-             WHERE service.trainee_id IS NULL`
+             JOIN services ON workout_plans.service_id = services.id
+             WHERE services.trainee_id IS NULL`
         )
 
         return workoutPlans
@@ -533,6 +533,7 @@ export async function getAllWorkoutPlans() {
         return []
     }
 }
+
 
 export async function getMetList() {
     return [{ met: 7.5 }]
