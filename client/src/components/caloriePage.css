@@ -3,3 +3,13 @@ This is the css for the page for the calorie tracker, which shows
 a the daily breakdowns of calories in and calories out,
 diplayed against the weight goal. 
 */
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #1a1a1a;
+}
+
+.app-container {
+  padding-bottom: 80px;
+}

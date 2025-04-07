@@ -3,6 +3,8 @@ js for the sign in page, where the user enters email & password.
 There's a button that says "log in", and a button that says "back". 
 */
 
+// By: Graeme Georges
+
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom"; // Import useHistory for navigation
 import "./signInPage.css";
@@ -10,12 +12,40 @@ import "./signInPage.css";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State to hold the error message
   const history = useHistory(); // Initialize useHistory
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log("logging in with", { email, password });
+    try {
+      // Send a POST request to the API for login using fetch
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+      const { userId, userType } = data;
+
+      // Store userId and userType in localStorage or state as needed
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("userType", userType);
+
+      // Navigate to the next page after successful login
+      history.push(`/dashboard`); // Update with the actual page you want to navigate to
+      console.log("Login successful, userId:", userId, "userType:", userType);
+    } catch (error) {
+      // If there's an error (wrong credentials or server issue), show error message
+      setErrorMessage("Invalid email or password. Please try again.");
+      console.error("Login failed:", error);
+    }
   };
 
   const handleBack = () => {
@@ -32,6 +62,9 @@ function SignIn() {
     <div className="signin-container">
       <form className="signin-form" onSubmit={handleSubmit}>
         <h2>Sign In</h2>
+
+        {/* Display error message if login fails */}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <div className="input-group">
           <label>Email</label>
@@ -59,7 +92,7 @@ function SignIn() {
           <button
             type="button"
             className="forgot-password-btn"
-            onClick={handleForgotPassword} // Call the navigation function
+            onClick={handleForgotPassword}
           >
             Forgot Password?
           </button>

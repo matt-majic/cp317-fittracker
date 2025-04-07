@@ -7,6 +7,7 @@ import StartPage from "./components/startPage";
 import SignIn from "./components/signInPage";
 import CreateAccount from "./components/createAccount";
 import ChangePassword from "./components/changePassword";
+import CaloriePage from "./components/caloriePage";
 
 console.log(StartPage, SignIn, CreateAccount, ChangePassword);
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signin" component={SignIn} />
         <Route path="/create-account" component={CreateAccount} />
         <Route path="/change-password" component={ChangePassword} />
+        <Route path="/calorie-page" component={CaloriePage} />
       </Switch>
     </Router>
   );
