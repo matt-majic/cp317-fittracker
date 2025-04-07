@@ -424,6 +424,14 @@ export async function addFood(userId, foodId, quantity) {
             'INSERT INTO nutrition_trackers (user_id, date, food_item_id, quantity) VALUES (?, CURRENT_DATE, ?, ?)',
             [userId, foodId, quantity]
         )
+        const totalCals = await getTotalCalories(userId)
+        // Update calorie tracker with total cals for today
+        await query(
+            `UPDATE calorie_trackers
+            SET calorieIn = ?
+            WHERE user_id = ? AND date = CURRENT_DATE`,
+            [totalCals, userId]
+        )
         return 200
     } catch (error) {
         console.error('Error: Add Food (NT)', error.message)
@@ -444,6 +452,14 @@ export async function modifyFoodQuantity(userId, foodId, quantity) {
                 WHERE user_id = ? AND date = CURRENT_DATE AND food_item_id = ?`,
                 [quantity, userId, foodId]
             )
+        const totalCals = await getTotalCalories(userId)
+        // Update calorie tracker with total cals for today
+        await query(
+            `UPDATE calorie_trackers
+                SET calorieIn = ?
+                WHERE user_id = ? AND date = CURRENT_DATE`,
+            [totalCals, userId]
+        )
         return 200
     } catch (error) {
         console.error('Error: Remove Food (NT)', error.message)
