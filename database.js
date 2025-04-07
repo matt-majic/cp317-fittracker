@@ -519,8 +519,21 @@ export async function getFoodLog(userId) {
 
 // #region Application
 export async function getAllWorkoutPlans() {
-    return [{ name: 'Workout Plan 1' }]
+    try {
+        const workoutPlans = await query(
+            `SELECT workout_plans.*, services.*
+             FROM workout_plans
+             JOIN services ON workout_plans.service_id = service.id
+             WHERE service.trainee_id IS NULL`
+        )
+
+        return workoutPlans
+    } catch (error) {
+        console.error('Error: Get All Workout Plans', error.message)
+        return []
+    }
 }
+
 export async function getMetList() {
     return [{ met: 7.5 }]
 }
@@ -582,14 +595,54 @@ export async function deleteActivity(id) {
 
 // #region Payment Method
 export async function getPaymentMethod(traineeId) {
-    return { traineeId: traineeId }
+    try {
+        const paymentMethod = await query(
+            'SELECT * FROM payment_methods WHERE user_id = ?',
+            [traineeId]
+        )
+        return paymentMethod[0]
+
+    } catch (error) {
+        console.error('Error: Get Payment Method', error.message)
+        return 400
+    }
 }
+
 export async function savePaymentMethod(traineeId, paymentMethod) {
-    return 200
+    try {
+
+        const { issuer, cardHolderName, cardNum, expiration, cvv, billingAddress } = paymentMethod
+
+        await query(
+            `INSERT INTO payment_methods (user_id, issuer, cardHolderName, cardNum, expiration, cvv, billingAddress)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [traineeId, issuer, cardHolderName, cardNum, expiration, cvv, billingAddress]
+        )
+    
+        return 200
+
+    } catch (error) {
+
+        console.error('Error: Save Payment Method', error.message)
+        return 400
+    }
 }
+
 export async function deletePaymentMethod(traineeId) {
-    return 200
+    try {
+        await query(
+            'DELETE FROM payment_methods WHERE user_id = ?',
+            [traineeId]
+        )
+        return 200
+
+    } catch (error) {
+
+        console.error('Error: Delete Payment Method', error.message)
+        return 400
+    }
 }
+
 // #endregion
 
 // #region Nutrition Controller
