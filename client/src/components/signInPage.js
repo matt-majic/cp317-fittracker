@@ -38,8 +38,13 @@ function SignIn() {
       localStorage.setItem("userId", userId);
       localStorage.setItem("userType", userType);
 
-      // Navigate to the next page after successful login
-      history.push(`/dashboard`); // Update with the actual page you want to navigate to
+      if (userType === "trainee") {
+        history.push("/trainee-profile"); // Redirect to trainee profile page
+      } else if (userType === "admin") {
+        history.push("/trainer-profile"); // Redirect to admin dashboard
+      } else {
+        history.push("/dashboard"); // Default redirect if no specific userType
+      }
       console.log("Login successful, userId:", userId, "userType:", userType);
     } catch (error) {
       // If there's an error (wrong credentials or server issue), show error message
