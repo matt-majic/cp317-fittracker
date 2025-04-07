@@ -40,7 +40,7 @@ CREATE TABLE food_items (
 -- Services table (parent of sessions and workout plans)
 CREATE TABLE services (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    trainee_id INT NOT NULL,
+    trainee_id INT DEFAULT NULL,
     trainer_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
