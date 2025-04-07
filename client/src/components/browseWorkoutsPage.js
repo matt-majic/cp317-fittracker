@@ -1,0 +1,3 @@
+/*
+This is where the trainee can look at the available workouts to purchase. 
+*/
