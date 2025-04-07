@@ -5,6 +5,15 @@ import cors from 'cors'
 const app = express();
 app.use(express.json())
 
+// #region Login
+app.post('/api/login', cors(), async (req, res) => {
+  // Try to login using passed args, returns the user id
+  const { email, password } = req.body
+  const { userId, userType, status } = await database.attemptLogin(email, password)
+  res.status(status).json({ userid: userId, userType: userType });
+});
+// #endregion
+
 // #region Trainee
 app.get('/api/Trainee/:id', cors(), async (req, res) => {
   // Get a trainee by id

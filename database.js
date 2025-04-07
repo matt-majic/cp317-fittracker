@@ -19,6 +19,26 @@ async function query(sql, params) {
     return rows
 }
 
+// #region Login
+export async function attemptLogin(email, password) {
+    // Really crappy implementation, for demonstrational purposes only
+    try {
+        const result = await query('SELECT id FROM users WHERE email = ? AND password = ?', [email, password])
+        const userId = result[0].id
+        const traineeObj = await getTrainee(userId)
+        const trainerObj = await getTrainer(userId)
+        if (traineeObj != null) {
+            return { userId: userId, userType: "Trainee", status: 200 }
+        }
+        else if (trainerObj != null) {
+            return { userId: userId, userType: "Trainer", status: 200 }
+        }
+    } catch (error) {
+        console.error('Error: Attempt Login', error.message)
+    }
+    return { userId: null, userType: null, status: 400 }
+}
+// #endregion
 
 // #region Trainee
 export async function getTrainee(id) {
@@ -27,7 +47,7 @@ export async function getTrainee(id) {
         return trainee[0]
     } catch (error) {
         console.error('Error: Get Trainee', error.message)
-        return {}
+        return null
     }
 }
 
@@ -108,7 +128,7 @@ export async function getTrainer(id) {
         return result[0]
     } catch (error) {
         console.error('Error: Get Trainer', error.message)
-        return []
+        return null
     }
 }
 export async function createTrainer(trainer) {
@@ -272,7 +292,7 @@ export async function getSession(serviceId) {
         return session[0] // Return single session object
     } catch (error) {
         console.error('Error: Get Session', error.message)
-        return []
+        return null
     }
 }
 
@@ -354,7 +374,7 @@ export async function getCalorieTracker(id, date) {
         return calorieTracker[0]
     } catch (error) {
         console.error('Error: Get Calorie Tracker', error.message)
-        return []
+        return null
     }
 }
 
