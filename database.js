@@ -106,8 +106,21 @@ export async function getTraineeSessions(id) {
 }
 
 export async function getNutritionTracker(id) {
-    return { id: id }
+    try {
+        const tracker = await query(
+            `SELECT nutrition_trackers.*
+             FROM nutrition_trackers
+             JOIN trainees t ON nutrition_trackers.user_id = t.user_id
+             WHERE t.user_id = ?`,
+            [id]
+        )
+        return tracker
+    } catch (error) {
+        console.error('Error: Get Nutrition Tracker', error.message)
+        return 400
+    }
 }
+
 // #endregion
 
 // #region Trainer
