@@ -15,34 +15,35 @@ function CaloriePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
 
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchCalorieData = async () => {
       try {
-        // Make an HTTP GET request to the calorie tracker API
+        if (!userId) {
+          setErrorMessage("User not logged in. Redirecting to sign-in...");
+          history.push("/signin");
+          return;
+        }
+
         const response = await fetch(
           `/api/CalorieTracker/${userId}/${currentDate}`
         );
-        const data = await response.json();
-
-        if (response.ok) {
-          setCalorieData(data);
-        } else {
+        if (!response.ok) {
           setErrorMessage("No calorie data found for today.");
+          return;
         }
+
+        const data = await response.json();
+        setCalorieData(data);
       } catch (error) {
         console.error("Error fetching calorie data:", error);
         setErrorMessage("Failed to load calorie data.");
       }
     };
 
-    if (userId) {
-      fetchCalorieData();
-    } else {
-      history.push("/signin");
-    }
+    fetchCalorieData();
   }, [userId, currentDate, history]);
 
   if (!calorieData) {

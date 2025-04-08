@@ -16,36 +16,37 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make an HTTP POST request to the login API
+      console.log("Submitting login request with:", { email, password });
+
       const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(
+          errorData.message || "Invalid email or password. Please try again."
+        );
+        return;
+      }
+
       const data = await response.json();
+      console.log("Login successful:", data);
 
-      if (response.status === 200) {
-        // If login is successful, store userId and userType in localStorage
-        const { userid, userType } = data;
-        localStorage.setItem("userId", userid);
-        localStorage.setItem("userType", userType);
+      const { userid, userType } = data;
+      sessionStorage.setItem("userId", userid);
+      sessionStorage.setItem("userType", userType);
 
-        // Redirect to the appropriate page based on the userType
-        if (userType === "Trainee") {
-          history.push("/trainee-profile");
-        } else if (userType === "Trainer") {
-          history.push("/trainer-profile");
-        } else {
-          history.push("/dashboard");
-        }
-        console.log("Login successful, userId:", userid, "userType:", userType);
+      if (userType === "Trainee") {
+        history.push("/trainee-profile");
+      } else if (userType === "Trainer") {
+        history.push("/trainer-profile");
       } else {
-        // If login failed, show an error message
-        setErrorMessage("Invalid email or password. Please try again.");
+        history.push(`/dashboard/${userType.toLowerCase()}`);
       }
     } catch (error) {
-      // Handle errors during the API call
       setErrorMessage("An error occurred. Please try again later.");
       console.error("Login failed:", error);
     }
