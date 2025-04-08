@@ -1,0 +1,3 @@
+/*
+the trainer can edit their existing profile here. 
+*/

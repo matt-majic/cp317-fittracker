@@ -1,0 +1,3 @@
+/*
+Lists all sessions that a trainer has purchased which are active
+*/

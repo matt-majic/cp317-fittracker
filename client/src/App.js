@@ -1,20 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Customers from './components/customers';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">React Express Starter</h1>
-        </header>
-        <Customers />
-      </div>
-    );
-  }
+// Components (ensure these paths are correct and components are properly exported)
+import StartPage from "./components/startPage";
+import SignIn from "./components/signInPage";
+import CreateAccount from "./components/createAccount";
+import ChangePassword from "./components/changePassword";
+import CaloriePage from "./components/caloriePage";
+import traineeProfilePage from "./components/traineeProfilePage";
+import traineeManageProfile from "./components/traineeManageProfile";
+
+console.log(StartPage, SignIn, CreateAccount, ChangePassword);
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={StartPage} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/create-account" component={CreateAccount} />
+        <Route path="/change-password" component={ChangePassword} />
+        <Route path="/calorie-page" component={CaloriePage} />
+        <Route path="/trainee-profile" component={traineeProfilePage} />
+        <Route
+          path="/manage-trainee-profile"
+          component={traineeManageProfile}
+        />
+        {/* Add more routes as needed */}
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
