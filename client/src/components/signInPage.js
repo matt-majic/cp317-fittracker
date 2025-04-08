@@ -39,10 +39,11 @@ function SignIn() {
       sessionStorage.setItem("userId", userid);
       sessionStorage.setItem("userType", userType);
 
+      // Redirect based on userType
       if (userType === "Trainee") {
         history.push("/trainee-profile");
       } else if (userType === "Trainer") {
-        history.push("/trainer-profile");
+        history.push("/trainer-profile"); // Redirect trainers to TrainerProfilePage
       } else {
         history.push(`/dashboard/${userType.toLowerCase()}`);
       }

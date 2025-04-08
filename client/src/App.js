@@ -13,6 +13,8 @@ import browseSessionsPage from "./components/browseSessionsPage";
 import FitnessMenuPage from "./components/fitnessMenuPage";
 import traineeProfilePage from "./components/traineeProfilePage";
 import traineeManageProfile from "./components/traineeManageProfile";
+import trainerProfilePage from "./components/trainerProfilePage";
+import TrainerManageProfile from "./components/trainerManageProfile";
 
 console.log(StartPage, SignIn, CreateAccount, ChangePassword);
 
@@ -33,6 +35,11 @@ function App() {
         <Route path="/browse-sessions" component={browseSessionsPage} />
         <Route path="/fitness-menu" component={FitnessMenuPage} />
         <Route path="/trainee-profile" component={traineeProfilePage} />
+        <Route path="/trainer-profile" component={trainerProfilePage} />
+        <Route
+          path="/manage-trainer-profile"
+          component={TrainerManageProfile}
+        />
         <Route
           path="/manage-trainee-profile"
           component={traineeManageProfile}
