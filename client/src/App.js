@@ -18,23 +18,28 @@ console.log(StartPage, SignIn, CreateAccount, ChangePassword);
 
 function App() {
   return (
-      <Router style={{ 
-        display:"flex",
-        alignItems: "center"    
-        }}>
-        <Switch>
-          <Route exact path="/" component={StartPage} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/create-account" component={CreateAccount} />
-          <Route path="/change-password" component={ChangePassword} />
-          <Route path="/calorie-page" component={CaloriePage} />
-          <Route path="/browse-sessions" component={browseSessionsPage} />
-          <Route path="/fitness-menu" component={FitnessMenuPage} />
-          <Route path="/trainee-profile" component={traineeProfilePage} />
-          <Route path="/manage-trainee-profile" component={traineeManageProfile}/>
-        </Switch>
-        <HomeBar />
-      </Router>
+    <Router
+      style={{
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Switch>
+        <Route exact path="/" component={StartPage} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/create-account" component={CreateAccount} />
+        <Route path="/change-password" component={ChangePassword} />
+        <Route path="/calorie-page" component={CaloriePage} />
+        <Route path="/browse-sessions" component={browseSessionsPage} />
+        <Route path="/fitness-menu" component={FitnessMenuPage} />
+        <Route path="/trainee-profile" component={traineeProfilePage} />
+        <Route
+          path="/manage-trainee-profile"
+          component={traineeManageProfile}
+        />
+      </Switch>
+      <HomeBar />
+    </Router>
   );
 }
 

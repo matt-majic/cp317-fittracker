@@ -1,14 +1,9 @@
-/*
-the trainee can edit their existing profile here.
-*/
-
-// By: Graeme Georges
-
 import React, { useState } from "react";
 import "./traineeManageProfile.css";
 
 function traineeManageProfile() {
   const [user, setUser] = useState({
+    id: sessionStorage.getItem("userId"), // Retrieve user ID from session storage
     name: "Graeme Georges",
     email: "graeme@example.com",
     birthday: "1995-06-15",
@@ -21,11 +16,26 @@ function traineeManageProfile() {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., update user data)
-    console.log("Updated user info:", user);
-    alert("Profile updated successfully!");
+    try {
+      const response = await fetch(`/api/Trainee/${user.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        alert("Profile updated successfully!");
+      } else {
+        alert("Failed to update profile. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   return (

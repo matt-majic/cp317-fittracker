@@ -1,23 +1,35 @@
-// By: Graeme Georges
-
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"; // Import useHistory
 import "./traineeProfilePage.css";
 
-function traineeProfilePage() {
-  const user = {
-    name: "Graeme Georges",
-    email: "graeme@example.com",
-    userType: "Premium Member",
-    profileImage: "https://via.placeholder.com/150",
-    weight: "75kg",
-    age: 28,
-    height: "180cm",
-  };
+function TraineeProfilePage() {
+  const history = useHistory(); // Initialize useHistory
+  const [user, setUser] = useState(null); // State to store user data
+  const userId = sessionStorage.getItem("userId"); // Retrieve user ID from session storage
+
+  useEffect(() => {
+    // Fetch user data from the backend
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/api/Trainee/${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data); // Set user data in state
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const handleNavigation = (action) => {
     switch (action) {
       case "profile":
-        console.log("Profile clicked");
+        history.push("/trainee-manage-profile"); // Navigate to Trainee Manage Profile
         break;
       case "settings":
         console.log("Settings clicked");
@@ -40,29 +52,40 @@ function traineeProfilePage() {
     }
   };
 
+  if (!user) {
+    return <div>Loading...</div>; // Show a loading message while fetching data
+  }
+
   return (
     <div className="profile-container">
       <div className="profile-card">
-        <img src={user.profileImage} alt="Profile" className="profile-image" />
+        <img
+          src={user.profileImage || "https://via.placeholder.com/150"}
+          alt="Profile"
+          className="profile-image"
+        />
         <h2 className="profile-name">{user.name}</h2>
         <p className="profile-email">{user.email}</p>
         <p className="profile-type">{user.userType}</p>
 
         <div className="profile-description">
           <p>
+            <strong>Height:</strong> {user.height}
+          </p>
+          <p>
             <strong>Weight:</strong> {user.weight}
           </p>
           <p>
-            <strong>Age:</strong> {user.age}
+            <strong>Gender:</strong> {user.gender}
           </p>
           <p>
-            <strong>Height:</strong> {user.height}
+            <strong>Age:</strong> {user.age}
           </p>
         </div>
 
         <div className="button-list">
           <button onClick={() => handleNavigation("profile")}>
-            👤 Edit Profile
+            👤 EditProfile
           </button>
           <button onClick={() => handleNavigation("settings")}>
             ⚙️ Settings
@@ -86,4 +109,4 @@ function traineeProfilePage() {
   );
 }
 
-export default traineeProfilePage;
+export default TraineeProfilePage;
