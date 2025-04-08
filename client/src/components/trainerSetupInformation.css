@@ -2,10 +2,6 @@
 where the trainer enters their qualifications & experience when making the account. 
 */
 
-/*FROM TRAINEE:*/
-/*
-The trainer enters their sex, height, and weight. 
-*/
 .setup-container {
   display: flex;
   justify-content: center;
