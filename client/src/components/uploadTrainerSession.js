@@ -4,6 +4,8 @@ time the session will be active, and the link. It has an upload button.
 */
 // script.js
 
+//by Ashrey
+
 document.addEventListener("DOMContentLoaded", () => {
   const uploadBtn = document.querySelector(".upload-btn");
   const cancelBtn = document.querySelector(".cancel-btn");
