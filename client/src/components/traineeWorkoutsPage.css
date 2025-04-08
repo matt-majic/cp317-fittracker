@@ -2,3 +2,82 @@
 css for the page where a trainee can look at the list of their workouts. 
 Has all the workouts they're subscribed to listed, and a back button in the top left corner. 
 */
+
+/* styles.css */
+/* 
+Page where a trainee can view a list of their subscribed workouts. 
+Includes a back button at the top left.
+*/
+
+.workout-list-container {
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.back-button {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.back-button:hover {
+  background-color: #cfcfcf;
+}
+
+.workout-list {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+.workout-list h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.workout-item {
+  padding: 1rem 1.2rem;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workout-item .title {
+  font-weight: 600;
+}
+
+.workout-item .link a {
+  color: #4f46e5;
+  text-decoration: underline;
+  font-size: 0.95rem;
+}
+
+.workout-item .link a:hover {
+  color: #4338ca;
+}
+
+.no-workouts {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 1rem;
+}

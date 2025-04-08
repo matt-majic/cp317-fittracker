@@ -3,3 +3,36 @@ This is where the trainee can look at the available sessions to purchase.
 The sessions would probably be scheduled weekly (as that would make sense 
 for buying a session in advance) (that's not really important for this implementation, though). 
 */
+/* Basic styling for the whole page */
+.browse-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  /* Styling the buttons */
+  .level-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+  
+  .level-button {
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .level-button:hover {
+    background-color: #45a049;
+  }
+  
