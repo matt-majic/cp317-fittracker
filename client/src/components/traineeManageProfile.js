@@ -1,15 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./traineeManageProfile.css";
 
-function traineeManageProfile() {
+function TraineeManageProfile() {
   const [user, setUser] = useState({
     id: sessionStorage.getItem("userId"), // Retrieve user ID from session storage
-    name: "Graeme Georges",
-    email: "graeme@example.com",
-    birthday: "1995-06-15",
-    weight: "75kg",
-    height: "180cm",
+    name: "",
+    email: "",
+    birthday: "",
+    weight: "",
+    height: "",
   });
+
+  // Fetch trainee data from the backend when the component loads
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/api/Trainee/${user.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setUser({
+            ...user,
+            name: `${data.firstName} ${data.lastName}`, // Combine first and last name
+            email: data.email,
+            birthday: data.birthday || "", // Ensure birthday is handled
+            weight: data.weight,
+            height: data.height,
+          });
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user.id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +50,14 @@ function traineeManageProfile() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify({
+          firstName: user.name.split(" ")[0], // Extract first name
+          lastName: user.name.split(" ")[1] || "", // Extract last name
+          email: user.email,
+          birthday: user.birthday,
+          weight: user.weight,
+          height: user.height,
+        }),
       });
 
       if (response.ok) {
@@ -105,4 +138,4 @@ function traineeManageProfile() {
   );
 }
 
-export default traineeManageProfile;
+export default TraineeManageProfile;

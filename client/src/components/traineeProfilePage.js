@@ -29,7 +29,7 @@ function TraineeProfilePage() {
   const handleNavigation = (action) => {
     switch (action) {
       case "profile":
-        history.push("/trainee-manage-profile"); // Navigate to Trainee Manage Profile
+        history.push("/manage-trainee-profile"); // Navigate to Trainee Manage Profile
         break;
       case "settings":
         console.log("Settings clicked");
@@ -64,7 +64,9 @@ function TraineeProfilePage() {
           alt="Profile"
           className="profile-image"
         />
-        <h2 className="profile-name">{user.name}</h2>
+        <h2 className="profile-name">
+          {user.firstName} {user.lastName}
+        </h2>
         <p className="profile-email">{user.email}</p>
         <p className="profile-type">{user.userType}</p>
 
