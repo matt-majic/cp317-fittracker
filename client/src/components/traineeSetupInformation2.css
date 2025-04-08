@@ -2,3 +2,65 @@
 The trainer enters their weight gain/loss/maintain/(no goal) goal (select one),
 as well as the types of workouts they're interested in (multi-select). 
 */
+.setup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  padding: 40px;
+}
+
+.setup-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.setup-form h2 {
+  text-align: center;
+  color: #333;
+}
+
+.setup-form label {
+  font-weight: 600;
+  color: #555;
+}
+
+.setup-form input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.setup-form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setup-form button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.setup-form button:hover {
+  background-color: #357ab8;
+}
