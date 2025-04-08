@@ -5,6 +5,8 @@ Has all the workouts they're subscribed to listed, and a back button in the top 
 
 // script.js
 
+//by Ashrey
+
 document.addEventListener("DOMContentLoaded", () => {
   const workouts = [
     { title: "Full Body HIIT", link: "https://example.com/hiit" },
