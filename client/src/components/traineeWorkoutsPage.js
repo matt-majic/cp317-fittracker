@@ -7,40 +7,67 @@ Has all the workouts they're subscribed to listed, and a back button in the top 
 
 //by Ashrey
 
-document.addEventListener("DOMContentLoaded", () => {
-  const workouts = [
-    { title: "Full Body HIIT", link: "https://example.com/hiit" },
-    { title: "Core Strengthening", link: "https://example.com/core" },
-    { title: "Mobility Flow", link: "https://example.com/mobility" }
-  ];
+// ViewTraineeWorkouts.jsx
+// Page for the trainee to view all workouts they are subscribed to
 
-  const workoutContainer = document.getElementById("workout-items");
-  const noWorkoutsMsg = document.getElementById("noWorkoutsMsg");
+import React, { useState, useEffect } from "react";
+import "./viewTraineeWorkouts.css";
 
-  function renderWorkouts(list) {
-    workoutContainer.innerHTML = "";
+function ViewTraineeWorkouts() {
+  const [workouts, setWorkouts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    if (list.length === 0) {
-      noWorkoutsMsg.style.display = "block";
-      return;
-    }
+  useEffect(() => {
+    // Fetch subscribed workouts from backend (mocked here)
+    const fetchWorkouts = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        const res = await fetch(`/api/Trainee/${userId}/Workouts`);
+        const data = await res.json();
 
-    noWorkoutsMsg.style.display = "none";
+        setWorkouts(data || []);
+      } catch (err) {
+        console.error("Error fetching workouts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    list.forEach(workout => {
-      const div = document.createElement("div");
-      div.className = "workout-item";
-      div.innerHTML = `
-        <span class="title">${workout.title}</span>
-        <span class="link"><a href="${workout.link}" target="_blank">View</a></span>
-      `;
-      workoutContainer.appendChild(div);
-    });
-  }
+    fetchWorkouts();
+  }, []);
 
-  renderWorkouts(workouts);
+  const handleBack = () => {
+    window.history.back();
+  };
 
-  document.getElementById("backBtn").addEventListener("click", () => {
-    window.history.back(); // Takes user to previous page
-  });
-});
+  return (
+    <div className="workout-list-container">
+      <button className="back-button" onClick={handleBack}>
+        ← Back
+      </button>
+
+      <div className="workout-list">
+        <h2>Your Subscribed Workouts</h2>
+
+        {loading ? (
+          <p>Loading workouts...</p>
+        ) : workouts.length === 0 ? (
+          <p className="no-workouts">You haven't subscribed to any workouts yet.</p>
+        ) : (
+          workouts.map((workout, index) => (
+            <div key={index} className="workout-item">
+              <span className="title">{workout.title}</span>
+              <span className="link">
+                <a href={workout.link} target="_blank" rel="noopener noreferrer">
+                  View
+                </a>
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default ViewTraineeWorkouts;
