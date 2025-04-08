@@ -2,79 +2,64 @@
 This is the css for the page for the nutrition tracker, which shows 
 the foods and drinks that were listed for that day. 
 */
-/* styles.css */
-/*
-CSS for the nutrition tracker page.
-Displays a list of foods and drinks tracked for the day.
-*/
 
-.nutrition-tracker-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  min-height: 100vh;
-  background-color: #f4f9f6;
-  box-sizing: border-box;
-}
-
-.nutrition-tracker {
-  background: #ffffff;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-  width: 100%;
-  max-width: 700px;
-}
-
-.nutrition-tracker h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.9rem;
-  color: #333;
-}
-
-.tracked-section {
-  margin-bottom: 2rem;
-}
-
-.section-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 0.5rem;
-}
-
-.tracked-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.tracked-item {
-  display: flex;
-  justify-content: space-between;
-  background-color: #f0f4f3;
-  padding: 0.9rem 1.2rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  color: #333;
-}
-
-.tracked-item .name {
-  font-weight: 500;
-}
-
-.tracked-item .calories {
-  color: #666;
-  font-size: 0.95rem;
-}
-
-.no-data {
-  text-align: center;
-  color: #888;
-  font-style: italic;
-  margin-top: 1rem;
-}
+.nutrition-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 4rem 1.5rem;
+    min-height: 100vh;
+    background-color: #f2f2f2;
+    font-family: sans-serif;
+  }
+  
+  .nutrition-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .calorie-summary {
+    font-size: 1.1rem;
+    color: #4a90e2;
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+  
+  .food-log-list {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .food-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .food-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .food-details {
+    font-size: 0.95rem;
+    color: #888;
+    text-align: right;
+  }
+  
+  .no-food {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+  }
