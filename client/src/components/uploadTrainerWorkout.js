@@ -3,6 +3,8 @@ the trainer enters the description of the workout plan and the link. It has an u
 */
 // script.js
 
+// by Ashrey
+
 document.addEventListener("DOMContentLoaded", () => {
   const uploadBtn = document.querySelector(".upload-btn");
   const cancelBtn = document.querySelector(".cancel-btn");
