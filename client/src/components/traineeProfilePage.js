@@ -40,6 +40,9 @@ function TraineeProfilePage() {
       case "favourite":
         console.log("Favourite clicked");
         break;
+      case "calorie-page":
+        history.push("/calorie-page"); // Navigate to Calorie Tracker
+        break;
       case "help":
         console.log("Help clicked");
         break;
@@ -87,7 +90,7 @@ function TraineeProfilePage() {
 
         <div className="button-list">
           <button onClick={() => handleNavigation("profile")}>
-            👤 EditProfile
+            👤 Edit Profile
           </button>
           <button onClick={() => handleNavigation("settings")}>
             ⚙️ Settings
@@ -97,6 +100,9 @@ function TraineeProfilePage() {
           </button>
           <button onClick={() => handleNavigation("favourite")}>
             ⭐ Favourite
+          </button>
+          <button onClick={() => handleNavigation("calorie-page")}>
+            🍎 Calorie Tracker
           </button>
           <button onClick={() => handleNavigation("help")}>❓ Help</button>
           <button

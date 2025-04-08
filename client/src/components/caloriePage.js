@@ -1,11 +1,3 @@
-/*
-This is the js for the page for the calorie tracker, which shows 
-a the daily breakdowns of calories in and calories out,
-diplayed against the weight goal. 
-*/
-
-// By: Graeme Georges
-
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./caloriePage.css";

@@ -4,11 +4,16 @@ import "./traineeManageProfile.css";
 function TraineeManageProfile() {
   const [user, setUser] = useState({
     id: sessionStorage.getItem("userId"), // Retrieve user ID from session storage
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    birthday: "",
-    weight: "",
     height: "",
+    weight: "",
+    gender: "",
+    age: "",
+    weightGoal: "",
+    weightGoalDuration: "",
+    interests: "",
   });
 
   // Fetch trainee data from the backend when the component loads
@@ -20,11 +25,16 @@ function TraineeManageProfile() {
           const data = await response.json();
           setUser({
             ...user,
-            name: `${data.firstName} ${data.lastName}`, // Combine first and last name
+            firstName: data.firstName,
+            lastName: data.lastName,
             email: data.email,
-            birthday: data.birthday || "", // Ensure birthday is handled
-            weight: data.weight,
             height: data.height,
+            weight: data.weight,
+            gender: data.gender,
+            age: data.age,
+            weightGoal: data.weightGoal,
+            weightGoalDuration: data.weightGoalDuration,
+            interests: data.interests,
           });
         } else {
           console.error("Failed to fetch user data");
@@ -50,14 +60,7 @@ function TraineeManageProfile() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          firstName: user.name.split(" ")[0], // Extract first name
-          lastName: user.name.split(" ")[1] || "", // Extract last name
-          email: user.email,
-          birthday: user.birthday,
-          weight: user.weight,
-          height: user.height,
-        }),
+        body: JSON.stringify(user), // Send updated user data
       });
 
       if (response.ok) {
@@ -76,11 +79,22 @@ function TraineeManageProfile() {
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit} className="edit-profile-form">
         <div className="form-group">
-          <label>Name</label>
+          <label>First Name</label>
           <input
             type="text"
-            name="name"
-            value={user.name}
+            name="firstName"
+            value={user.firstName}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            value={user.lastName}
             onChange={handleInputChange}
             required
           />
@@ -98,11 +112,11 @@ function TraineeManageProfile() {
         </div>
 
         <div className="form-group">
-          <label>Birthday</label>
+          <label>Height</label>
           <input
-            type="date"
-            name="birthday"
-            value={user.birthday}
+            type="text"
+            name="height"
+            value={user.height}
             onChange={handleInputChange}
             required
           />
@@ -120,13 +134,53 @@ function TraineeManageProfile() {
         </div>
 
         <div className="form-group">
-          <label>Height</label>
+          <label>Gender</label>
           <input
             type="text"
-            name="height"
-            value={user.height}
+            name="gender"
+            value={user.gender}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Age</label>
+          <input
+            type="number"
+            name="age"
+            value={user.age}
             onChange={handleInputChange}
             required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Weight Goal</label>
+          <input
+            type="text"
+            name="weightGoal"
+            value={user.weightGoal}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Weight Goal Duration</label>
+          <input
+            type="text"
+            name="weightGoalDuration"
+            value={user.weightGoalDuration}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Interests</label>
+          <input
+            type="text"
+            name="interests"
+            value={user.interests}
+            onChange={handleInputChange}
           />
         </div>
 

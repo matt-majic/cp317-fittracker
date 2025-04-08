@@ -120,6 +120,18 @@ export async function createTrainee(trainee) {
 
 export async function updateTrainee(id, trainee) {
   try {
+    // Update the `users` table
+    await query(
+      `UPDATE users
+         SET firstName = ?, lastName = ?, email = ?
+         WHERE id = ?`,
+      [
+        trainee["firstName"],
+        trainee["lastName"],
+        trainee["email"],
+        id, // `id` corresponds to the `users` table's primary key
+      ]
+    );
     await query(
       `UPDATE trainees
             SET height = ?, weight = ?, gender = ?, age = ?, weightGoal = ?, weightGoalDuration = ?, interests = ?
