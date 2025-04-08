@@ -1,3 +1,97 @@
 /*
  page for the information about the trainee’s payments and credit card information. 
 */
+.payment-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  box-sizing: border-box;
+}
+
+.payment-info-card {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 600px;
+}
+
+.payment-info-card h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #f0f2f5;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.card-details {
+  background-color: #eaf0ff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.card-details p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+button.update-btn {
+  background-color: #4f46e5;
+  color: #ffffff;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+button.update-btn:hover {
+  background-color: #4338ca;
+}
+
+button.cancel-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+button.cancel-btn:hover {
+  background-color: #cfcfcf;
+}
