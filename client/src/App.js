@@ -11,6 +11,8 @@ import HomeBar from "./components/homeBar";
 import CaloriePage from "./components/caloriePage";
 import browseSessionsPage from "./components/browseSessionsPage";
 import FitnessMenuPage from "./components/fitnessMenuPage";
+import traineeProfilePage from "./components/traineeProfilePage";
+import traineeManageProfile from "./components/traineeManageProfile";
 
 console.log(StartPage, SignIn, CreateAccount, ChangePassword);
 
@@ -28,6 +30,8 @@ function App() {
           <Route path="/calorie-page" component={CaloriePage} />
           <Route path="/browse-sessions" component={browseSessionsPage} />
           <Route path="/fitness-menu" component={FitnessMenuPage} />
+          <Route path="/trainee-profile" component={traineeProfilePage} />
+          <Route path="/manage-trainee-profile" component={traineeManageProfile}/>
         </Switch>
         <HomeBar />
       </Router>
